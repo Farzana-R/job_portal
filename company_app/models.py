@@ -21,3 +21,12 @@ class Job(models.Model):
     slug = models.SlugField(max_length=250, unique=True)
     description = models.TextField(blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    area_of_job = models.CharField(max_length=250)
+    posting_date = models.DateTimeField(auto_now_add=True)
+    
+
+    class Meta:
+        ordering = ('job_name',)
+        verbose_name = 'job'
+        verbose_name_plural = 'jobs'
+
