@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'admin_app',
     'company_app',
     'user_app',
+    'frontend',
 ]
 
 MIDDLEWARE = [
@@ -83,16 +84,27 @@ WSGI_APPLICATION = 'job_portal_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': "django.db.backends.postgresql",
+#         'NAME': os.environ.get('DB_NAME'),
+#         'USER': os.environ.get('DB_USER'),
+#         'PASSWORD': os.environ.get('DB_USER_PASSWORD'),
+#         #'HOST': os.environ.get('DB_HOST'),
+#         #'PORT': os.environ.get('DB_DB_PORT'),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME'),
+        'ENGINE': "django.db.backends.postgresql",
+        'NAME': 'job_portal_database',
         'USER': 'job_portal',
-        'PASSWORD': 'portal',
+        'PASSWORD': 'job_portal',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432'
     }
 }
+
 
 
 # Password validation

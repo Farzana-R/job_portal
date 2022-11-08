@@ -11,3 +11,6 @@ class UserDetails(models.Model):
     phone_number = models.IntegerField(unique=True)
     image = models.ImageField(upload_to='user_images', blank=True)
     description = models.TextField(blank=True) 
+
+    def __str__(self):
+        return self.user.username
