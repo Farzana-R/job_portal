@@ -1,0 +1,53 @@
+{% extends 'design/base.html'%}
+{% load static %}
+{% block content %}  
+
+<body>
+    <h3>login</h3>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+        <p>{{ field.label }}: <br> {{ field }}</p>
+    {% endfor %}
+    <button type="submit">Login</button>
+</form>
+
+<p>Don't have an account? <a href="{% url 'user_register' %}">Signup here</a></p>
+</body>
+
+
+<!-- Footer Start -->
+{% include 'design/footer.html'%}
+<!-- Footer End -->
+
+{% endblock %}  
+
+<!-- Login Start -->
+<!-- <div class="container-xxl py-5">
+    <div class="container">
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Login</h1>
+        <div class="container-sm">
+            <form method="POST" action="">
+                {% csrf_token %}               
+                <div class="form-group pt-3">
+                    <input type="text" class="form-control" name='email' value="" placeholder="Email" required>
+                </div>               
+                <div class="form-group pt-3">
+                    <input type="password" class="form-control" name="password" value="" placeholder="Password" required>
+                </div>
+                <a class="ml-5 float-right" href="">Forgot password?</a>
+                <br>
+                <button type="submit" class="btn btn-primary py-2 px-4 ">Login</button>               
+                <h6>don't have an account <a href="{% url 'user_registration' %}">create an account</a></h6>
+                {% if messages %}
+                {% for msg in messages%}
+                <h5>{{ msg }}</h5>
+                {% endfor%}
+                {% endif %}
+            </form>
+        </div>  
+    </div>
+</div> -->
+<!-- Login End -->
+

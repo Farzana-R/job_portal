@@ -1,59 +1,80 @@
-from django.contrib import messages, auth
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
 
+from django.contrib import messages, auth
+from django.shortcuts import render, redirect
 from django.views import View
 
-# class based view for registration
-class RegisterView(View):
+from django.contrib.auth import login, authenticate
+# from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import View
+
+from . import forms
+
+class Home(View):
     def get(self, request):
-        return render(request, "register.html")
+        return render(request, 'index.html')
 
-    def post(self, request):
-        username = request.POST['username']
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
-        password = request.POST['password']
-        confirm_password = request.POST['password1']
 
-        if password == confirm_password:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, 'Username already Taken')
-                return redirect('register.html')
-            elif User.objects.filter(email=email).exists():
-                messages.info(request, 'Email already Taken')
-                return redirect('register.html')
+# def home(request):
+#     return render(request, 'index.html')
+
+
+def user_register(request):
+
+    if request.method == 'POST':
+        
+        user_form = forms.UserRegisterForm(request.POST)
+        if user_form.is_valid():
+            
+            user_form.save()
+            return redirect('login')
+    else:
+        user_form = forms.UserRegisterForm()
+    context = {'form': user_form}
+    return render(request, 'admin_app/register.html', context)
+
+
+def company_register(request):
+
+    if request.method == 'POST':
+        company_form = forms.CompanyRegisterForm(request.POST)
+        if company_form.is_valid():
+            company_form.save()
+            return redirect('login')
+    else:
+        company_form = forms.CompanyRegisterForm()
+
+
+    context = {'form': company_form}
+    return render(request, 'admin_app/register.html', context)
+
+
+def loginview(request):
+    form = forms.LoginForm()
+    message = ''
+    if request.method == 'POST':
+        form = forms.LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+            )
+            if user is not None:
+                login(request, user)
+                return redirect('home')
             else:
-                user = User.objects.create_user(username=username, password=password, first_name=first_name,
-                                                last_name=last_name, email=email)
-                user.save()
-                # send_mail('Registration successful','Login to see more!!',settings.EMAIL_HOST_USER,[username])
-                return redirect('login.html')
-        else:
-            messages.info(request, 'password not matching...')
-            return redirect('register.html')
+                message = 'Login failed!'
+    return render(
+        request, 'admin_app/login.html', context={'form': form, 'message': message})
 
 
-# class based view for login page
-class LoginView(View):
-    def get(self, request):
-        return render(request, "login.html")
-
-    def post(self, request):
-        username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(username=username, password=password)
-
-        if user is not None:
-            auth.login(request, user)
-
-            return redirect('home_page.html')
-        else:
-            messages.info(request, 'invalid credentials')
-            return redirect('login.html')
-
-# logout
 def logout(request):
     auth.logout(request)
-    return redirect('/')
+    return redirect('home')
+
+# def login(request):
+#     form = forms.LoginForm()
+#     if request.method == 'POST':
+#         form = forms.LoginForm(request.POST)
+#         if form.is_valid():
+#             pass
+#     return render(request, 'admin_app/login.html', context={'form': form})

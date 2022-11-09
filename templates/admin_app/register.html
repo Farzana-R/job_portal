@@ -1,0 +1,97 @@
+{% extends 'design/base.html'%}
+{% load static %}
+{% block content %}  
+
+<body>
+  <!-- Spinner Start -->
+{% include 'design/spinner.html'%}
+<!-- Spinner End -->
+
+<!-- navbar Start -->
+{% include 'design/navbar.html'%}
+<!-- navbar End -->
+<hr>
+
+<center><h1>Register here</h1></center>
+<hr>
+
+
+
+  <p class="lead">Select below the type of account you want to create</p>
+  <a href="{% url 'user_register' %}" class="btn btn-student btn-lg" role="button">user</a>
+  <a href="{% url 'company_register' %}" class="btn btn-teacher btn-lg" role="button">company</a>
+
+
+<form action="" method="POST">
+  {% csrf_token %}
+
+  {% for field in form %}
+      <div>
+          <p>{{ field.label }}: <br> {{ field }}</p> 
+
+          {% for error in field.errors %}
+              <small style="color: red">{{ error }}</small>
+          {% endfor %}
+      </div>
+  {% endfor %}
+
+
+
+  <button type="submit">Register</button>
+
+  {% if messages %}
+    {% for msg in messages%}       
+      <h5>{{ msg }}</h5>
+    {% endfor%}
+  {% endif %}
+
+</form>
+
+</body>
+<!-- Footer Start -->
+{% include 'design/footer.html'%}
+<!-- Footer End -->
+
+{% endblock %}  
+
+
+
+<!-- Registration  Start -->
+<!-- <div class="container-xxl py-5">
+    <div class="container">
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Create an Account</h1>
+        <div class="container-sm">
+            <form method="POST" action="{% url 'user_registration' %}">
+            {% csrf_token %}          
+                <div class="col pt-3">
+                  <input type="text" class="form-control"  name='username' value="{{ username }}" placeholder="Username" required>
+                </div>         
+                <div class="form-group pt-3 ">
+                  <input type="text" class="form-control" name='firstname' value="{{ firstname }}" placeholder="First Name" required>
+                </div> 
+                <div class="form-group pt-3 ">
+                    <input type="text" class="form-control" name='lastname' value="{{ lastname }}" placeholder="Last Name" required>
+                  </div>             
+                <div class="form-group pt-3">
+                  <input type="email" class="form-control" name='email' value="{{ email }}" placeholder="Email" required>
+                </div>         
+                <div class="form-group pt-3">
+                  <input type="text" class="form-control" name='phone' value="{{ phone }}" placeholder="Phone" required>
+                </div>         
+                <div class="form-group pt-3">
+                  <input type="password" class="form-control" name="password" placeholder="Password" required>
+                </div>
+                <div class="form-group pt-3">
+                  <input type="password" class="form-control" name="confirmpassword" placeholder="Confirm Password" required>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary py-2 px-4 ">Create an Account</button>
+                <h6>already  have an account? <a href="{% url 'user_login' %}">login</a></h6>
+                
+            </form>
+      </div>         
+    </div>
+</div> -->
+<!-- Registration End -->
+
+
