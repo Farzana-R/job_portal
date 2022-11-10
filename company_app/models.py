@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Company(models.Model):
-    company_user = models.OneToOneField(User, on_delete = models.CASCADE)
-    user_name = models.CharField(max_length=250, unique=True)
-    name = models.CharField(max_length=250, unique=True)
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    # user_name = models.CharField(max_length=250, unique=True)
+    name = models.CharField(max_length=250, unique=True, default='name')
     slug = models.SlugField(max_length=250, unique=True)
     address = models.TextField(unique=True)
     phone_number = models.CharField(max_length=250, unique=True)
@@ -20,7 +20,8 @@ class Company(models.Model):
         verbose_name_plural = 'companies'
 
     def __str__(self):
-        return '{}'.format(self.name)
+        return '{}'.format(self.user)
+
 
     
 class Job(models.Model):
