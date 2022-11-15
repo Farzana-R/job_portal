@@ -14,6 +14,8 @@ class uf(forms.ModelForm):
 
     def save(self):
         user = super().save(commit=False)
+        username = self.cleaned_data['username']
+        print(username)
         user.save()
 
         UserDetails.objects.create(user = user,  
