@@ -4,47 +4,63 @@ from django.contrib.auth.models import User
 from .models import UserDetails
 
 
-class UserRegistration(View):
-    def get(self, request):
-        return render(request, 'user_app/registration.html')
+# user profile
+@login_required
+def user_profile(request):
+    you = request.user
+    profile = Profile.objects.filter(user=you).first()
+    user_skills = Skill.objects.filter(user=you)
+    if request.method == 'POST':
+        form = NewSkillForm(request.POST)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.user = you
+            data.save()
+            return redirect('my-profile')
+    else:
+        form = NewSkillForm()
+    context = {
+        'u': you,
+        'profile': profile,
+        'skills': user_skills,
+        'form': form,
+        'profile_page': "active",
+    }
+    return render(request, 'candidates/profile.html', context)
 
-    def post(self, request):
-        username = request.POST['username']
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
-        email = request.POST['email']
-        phone = request.POST['phone']
-        password = request.POST['password']
-        confirmpassword = request.POST['confirmpassword']
+# edit profile
+@login_required
+def edit_profile(request):
+    you = request.user
+    profile = Profile.objects.filter(user=you).first()
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.user = you
+            data.save()
+            return redirect('my-profile')
+    else:
+        form = ProfileUpdateForm(instance=profile)
+    context = {
+        'form': form,
+    }
+    return render(request, 'candidates/edit_profile.html', context)
 
-        # Backend Validation
-
-        #Dictionary to temporarly store entered values
-        data = {
-            'username' : username,
-            'firstname' : firstname,
-            'lastname' : lastname,
-            'email' : email,
-            'phone' : phone,  
-            'password' : password, 
-            'confirmpassword' : confirmpassword,        
-        }
-
-        user = User.objects.create(username = username,
-                first_name = firstname, last_name = lastname,
-                email = email)
-        user.set_password(password)
-        user.save()
-
-        UserDetails.objects.create(user = user,  
-                phone_number = phone).save()
-
-        return render(request, 'user_app/registration.html', data)
+# profile view for recruters
+@login_required
+def profile_view(request, slug):
+    p = Profile.objects.filter(slug=slug).first()
+    you = p.user
+    user_skills = Skill.objects.filter(user=you)
+    context = {
+        'u': you,
+        'profile': p,
+        'skills': user_skills,
+    }
+    return render(request, 'candidates/profile.html', context)
 
 
-class UserLogin(View):
-    def get(self, request):
-        return render(request, 'user_app/login.html')
-
-    def post(self, request):
-        pass
+def candidate_details(request):
+    return render(request, 'candidates/details.html')
+    

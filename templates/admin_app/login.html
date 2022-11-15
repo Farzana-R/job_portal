@@ -1,10 +1,20 @@
 {% extends 'design/base.html'%}
 {% load static %}
-{% block content %}  
+{% block content %} 
 
-<body>
+ <!-- Spinner Start -->
+ {% include 'design/spinner.html'%}
+ <!-- Spinner End -->
+
+<!-- navbar Start -->
+{% include 'design/navbar.html'%}
+<!-- navbar End --> 
+
+<div class="container">
+    <br><br>
+
     <h3>login</h3>
-
+    <div class="d-flex justify-content-center">
 <form action="" method="POST">
     {% csrf_token %}
     {% for field in form %}
@@ -12,9 +22,14 @@
     {% endfor %}
     <button type="submit">Login</button>
 </form>
+</div>
+<br><br>
+<div>
 
 <p>Don't have an account? <a href="{% url 'user_register' %}">Signup here</a></p>
-</body>
+
+</div>
+</div>
 
 
 <!-- Footer Start -->

@@ -1,27 +1,33 @@
 {% extends 'design/base.html'%}
 {% load static %}
-{% block content %}  
+{% block content %} 
 
-<body>
-  <!-- Spinner Start -->
-{% include 'design/spinner.html'%}
-<!-- Spinner End -->
+ <!-- Spinner Start -->
+ {% include 'design/spinner.html'%}
+ <!-- Spinner End -->
 
-<!-- navbar Start -->
+
+
+    <div class="container">
+
+     
+      <!-- navbar Start -->
 {% include 'design/navbar.html'%}
-<!-- navbar End -->
-<hr>
+<!-- navbar End --> 
+<br><br>
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Create an Account</h1>
+       
+        <div class="card text-center" style="width: 40rem;">
+          <div class="card-body">
+            <p class="card-text">Select below the type of account you want to create.</p>
+            <a href="{% url 'user_register' %}" class="btn btn-primary btn-lg">user</a>
+            <a href="{% url 'company_register' %}" class="btn btn-primary btn-lg">company</a>
+          </div>
+        </div>
 
-<center><h1>Register here</h1></center>
-<hr>
+<br>
 
-
-
-  <p class="lead">Select below the type of account you want to create</p>
-  <a href="{% url 'user_register' %}" class="btn btn-student btn-lg" role="button">user</a>
-  <a href="{% url 'company_register' %}" class="btn btn-teacher btn-lg" role="button">company</a>
-
-
+  <div class="container-sm">
 <form action="" method="POST">
   {% csrf_token %}
 
@@ -48,6 +54,9 @@
 </form>
 
 </body>
+</div>         
+</div>
+</div>
 <!-- Footer Start -->
 {% include 'design/footer.html'%}
 <!-- Footer End -->

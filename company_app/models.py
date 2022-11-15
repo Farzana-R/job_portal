@@ -6,13 +6,12 @@ from django.contrib.auth.models import User
 
 class Company(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
-    # user_name = models.CharField(max_length=250, unique=True)
-    name = models.CharField(max_length=250, unique=True, default='name')
+    name = models.CharField(max_length=250, default='name')
     slug = models.SlugField(max_length=250, unique=True)
-    address = models.TextField(unique=True)
+    address = models.TextField(null=True, blank=True)
     phone_number = models.CharField(max_length=250, unique=True)
-    logo = models.ImageField(upload_to='company_logos', blank=True)
-    description = models.TextField(blank=True)
+    logo = models.ImageField(upload_to='company_logos', blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
 
     class Meta:
         ordering = ('name',)

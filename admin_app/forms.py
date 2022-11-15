@@ -19,11 +19,15 @@ class UserRegisterForm(forms.ModelForm):
             'phone_number','password', 'password2']
 
     def save(self):
-        print('check 3')
         user = super().save(commit=False)
+        password = self.cleaned_data['password']
+        user.set_password(password)
         user.save()
-        UserDetails.objects.create(user = user,  
-                phone_number = '123', slug = 's'+str(user.id)).save()               
+
+        phone_num = self.cleaned_data['phone_number']
+        UserDetails.objects.create(user = user, 
+                phone_number = phone_num,
+                slug = user.username+str(user.id)).save()            
         return user
 
 
@@ -40,11 +44,18 @@ class CompanyRegisterForm(forms.ModelForm):
             'phone_number','password', 'password2']
 
     def save(self):
-        print('check 3')
+        
         user = super().save(commit=False)
+        password = self.cleaned_data['password']
+        user.set_password(password)
         user.save()
-        Company.objects.create(name = 'name' ,user = user,  
-                phone_number = '123', slug = 's'+str(user.id)).save()               
+
+        phone_num = self.cleaned_data['phone_number']
+        name = self.cleaned_data['name']
+        Company.objects.create(name = name,
+        user = user,
+        phone_number = phone_num,
+        slug = user.username+str(user.id)).save()               
         return user
 
 

@@ -1,4 +1,3 @@
-
 from django.contrib import messages, auth
 from django.shortcuts import render, redirect
 from django.views import View
@@ -9,48 +8,52 @@ from django.views.generic import View
 
 from . import forms
 
+
 class Home(View):
     def get(self, request):
         return render(request, 'index.html')
 
 
-# def home(request):
-#     return render(request, 'index.html')
+class About(View):
+    def get(self, request):
+        return render(request, 'design/about.html')
 
 
-def user_register(request):
+class Contact(View):
+    def get(self, request):
+        return render(request, 'design/contact.html')
 
-    if request.method == 'POST':
-        
-        user_form = forms.UserRegisterForm(request.POST)
-        print("check 1")
-        if user_form.is_valid():
-            print('check 2')
-            # user = user_form.save(commit=False)
-            # user.save()
-            # user = authenticate(request, username=user.username, \
-            #     password=request.POST['password1'])
-            user_form.save()
-            return redirect('login')
-    else:
+
+class UserRegister(View):
+
+    def get(self, request):
         user_form = forms.UserRegisterForm()
-    context = {'form': user_form}
-    return render(request, 'admin_app/register.html', context)
+        context = {'form': user_form}
+        return render(request, 'admin_app/register.html', context)
+
+    def post(self, request):
+        user_form = forms.UserRegisterForm(request.POST)
+        if user_form.is_valid():
+            user_form.save()
+            return redirect('loginview')
+        context = {'form': user_form}
+        return render(request, 'admin_app/register.html', context)
 
 
-def company_register(request):
+class CompanyRegister(View):
 
-    if request.method == 'POST':
+    def get(self, request):
+        company_form = forms.CompanyRegisterForm()
+        context = {'form': company_form}
+        return render(request, 'admin_app/register.html', context)
+
+    def post(self, request):
         company_form = forms.CompanyRegisterForm(request.POST)
         if company_form.is_valid():
             company_form.save()
-            return redirect('login')
-    else:
-        company_form = forms.CompanyRegisterForm()
-
-
-    context = {'form': company_form}
-    return render(request, 'admin_app/register.html', context)
+            return redirect('loginview')
+        context = {'form': company_form}
+        return render(request, 'admin_app/register.html', context)
 
 
 def loginview(request):
@@ -81,3 +84,7 @@ def change_password(request):
     u = User.objects.get(username='john')
     u.set_password('new password')
     u.save()
+
+
+# def home(request):
+#     return render(request, 'index.html')
