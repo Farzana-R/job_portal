@@ -37,5 +37,7 @@ class Job(models.Model):
         verbose_name_plural = 'jobs'
 
     def __str__(self):
-        return '{}'.format(self.name)
+        return '{}'.format(self.job_name)
+
+    
 

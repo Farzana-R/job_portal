@@ -1,9 +1,10 @@
 from django.contrib import messages, auth
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views import View
 
 from django.contrib.auth import login, authenticate
-# from django.contrib.auth.forms import UserCreationForm
+from django.core.mail import send_mail
 from django.views.generic import View
 
 from . import forms
@@ -35,7 +36,14 @@ class UserRegister(View):
         user_form = forms.UserRegisterForm(request.POST)
         if user_form.is_valid():
             user_form.save()
+            #Send mail
+            email=user_form.cleaned_data['email']
+             
+            send_mail('HI WELCOME ...',
+                'Hi welcome to JOBRIAL',
+                settings.EMAIL_HOST_USER,[email],fail_silently=False)
             return redirect('loginview')
+        messages.error(request,'password not matching')
         context = {'form': user_form}
         return render(request, 'admin_app/register.html', context)
 
@@ -48,7 +56,12 @@ class CompanyRegister(View):
         return render(request, 'admin_app/register.html', context)
 
     def post(self, request):
+        
         company_form = forms.CompanyRegisterForm(request.POST)
+        
+        
+        
+        # confirmpassword = request.POST['confirmpassword']
         if company_form.is_valid():
             company_form.save()
             return redirect('loginview')

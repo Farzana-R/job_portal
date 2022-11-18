@@ -22,6 +22,8 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('frontend.urls')),
     path('', include('admin_app.urls')),
-]
+    path('user_app/', include('user_app.urls')),
+    # path('', include('company_app.urls')),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#For serving uploaded files

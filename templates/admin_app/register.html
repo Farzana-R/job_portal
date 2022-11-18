@@ -7,13 +7,14 @@
  <!-- Spinner End -->
 
 
+       <!-- navbar Start -->
+{% include 'design/navbar.html'%}
+<!-- navbar End --> 
 
     <div class="container">
 
      
-      <!-- navbar Start -->
-{% include 'design/navbar.html'%}
-<!-- navbar End --> 
+
 <br><br>
         <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Create an Account</h1>
        
@@ -40,6 +41,8 @@
           {% endfor %}
       </div>
   {% endfor %}
+
+    <small style="color: red">{{ form.error }}</small>
 
 
 

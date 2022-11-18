@@ -1,6 +1,6 @@
 from django import forms
 
-from django.forms import PasswordInput
+from django.forms import PasswordInput, ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -11,12 +11,12 @@ from company_app.models import Company
 class UserRegisterForm(forms.ModelForm):
     phone_number = forms.CharField(max_length=14)
     password = forms.CharField(widget=PasswordInput())
-    password2 = forms.CharField(widget=PasswordInput())
+    confirm_password = forms.CharField(widget=PasswordInput())
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', \
-            'phone_number','password', 'password2']
+            'phone_number','password', 'confirm_password']
 
     def save(self):
         user = super().save(commit=False)
@@ -31,17 +31,75 @@ class UserRegisterForm(forms.ModelForm):
         return user
 
 
+    def clean(self):
+            super(UserRegisterForm, self).clean()
+       
+            username = self.cleaned_data.get('username') 
+            first_name = self.cleaned_data.get('first_name') 
+            last_name = self.cleaned_data.get('last_name') 
+            phone_number = self.cleaned_data.get('phone_number') 
+            password= self.cleaned_data.get('password')
+            confirm_password = self.cleaned_data.get('confirm_password')
+          
+            if len(username) < 4 :
+                raise forms.ValidationError({"username":"Username \
+                                            should be atleat \
+                                            4 character long."})
+        
+            if not first_name.isalpha():
+                raise forms.ValidationError({"first_name":"First name \
+                                            should not containe \
+                                            any digits or \
+                                            special characters."})
+       
+            if not last_name.isalpha():
+                raise forms.ValidationError({"last_name":"Last name \
+                                            should not containe \
+                                            any digits or \
+                                            special characters."})
+
+            if not phone_number.isdigit():
+                raise forms.ValidationError({"phone_number":"Invalid \
+                                            phone number."})
+
+            if password != confirm_password:
+                raise forms.ValidationError({"password": "Password mismatch"})
+
+
+    # def clean(self):
+    #     # Get the user submitted names from the cleaned_data dictionary
+    #     cleaned_data = super().clean()
+    #     username = cleaned_data.get("username")
+    #     first_name = cleaned_data.get("first_name")
+    #     last_name = cleaned_data.get("last_name")
+    #     password = cleaned_data.get('password')
+    #     confirm_password = cleaned_data.get('confirm_password')
+
+    #     if password != confirm_password:
+    #         print('password mismatch error')
+    #         # If not, raise an error
+    #         raise forms.ValidationError("The username must contains at least 4 letters")
+
+    #     # Check if the first letter of both names is the same
+    #     if len(username) < 4:
+    #         print(len(username))
+    #         # If not, raise an error
+    #         raise ValidationError("both passwords are not matching")
+
+    #     return cleaned_data
+
+
 class CompanyRegisterForm(forms.ModelForm):
     name = forms.CharField(max_length=101)
     # email = forms.EmailField(max_length=200, help_text='Required')
     phone_number = forms.CharField(max_length=14)
     password = forms.CharField(widget=PasswordInput())
-    password2 = forms.CharField(widget=PasswordInput())
+    confirm_password = forms.CharField(widget=PasswordInput())
 
     class Meta:
         model = User
         fields = ['username', 'name', 'email', \
-            'phone_number','password', 'password2']
+            'phone_number','password', 'confirm_password']
 
     def save(self):
         
