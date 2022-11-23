@@ -48,9 +48,9 @@
                         <i class="bi-person-circle h2"></i>
                     </a>
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-                        <li><a class="dropdown-item" href="#">view profile...</a></li>
-                        <li><a class="dropdown-item" href="#">edit profile</a></li>
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user_app:user_profile' %}">view profile...</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user_app:update_user_profile' %}">edit profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user_app:change_password' %}">Change Password</a></li>
                     </ul>
                 </div>
                 <a class="btn bg-gradient-primary mt-3 w-100" href="">Subscribe</a>

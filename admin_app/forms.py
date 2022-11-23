@@ -66,6 +66,8 @@ class UserRegisterForm(forms.ModelForm):
                 raise forms.ValidationError({"password": "Password mismatch"})
 
 
+
+
     # def clean(self):
     #     # Get the user submitted names from the cleaned_data dictionary
     #     cleaned_data = super().clean()

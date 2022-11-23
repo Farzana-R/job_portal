@@ -1,8 +1,15 @@
-from django.shortcuts import render
-from django.views.generic import View
+from django.shortcuts import render, redirect
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from . models import UserDetails
+
 from company_app.models import Job
+
+
+from . import forms
+from . models import UserDetails
+
 
 
 def user_dashboard(request):
@@ -20,49 +27,37 @@ def job_detail(request, job_id):
     return render(request, 'user_app/job-detail.html', {'job_detail':job_detail})
 
 
+def change_password(request):
+    return render(request, 'user_app/change_password.html')
+
 
 # user profile
-# @login_required
-# def user_profile(request):
-#     you = request.user
-#     profile = Profile.objects.filter(user=you).first()
-#     user_skills = Skill.objects.filter(user=you)
-#     if request.method == 'POST':
-#         form = NewSkillForm(request.POST)
-#         if form.is_valid():
-#             data = form.save(commit=False)
-#             data.user = you
-#             data.save()
-#             return redirect('my-profile')
-#     else:
-#         form = NewSkillForm()
-#     context = {
-#         'u': you,
-#         'profile': profile,
-#         'skills': user_skills,
-#         'form': form,
-#         'profile_page': "active",
-#     }
-#     return render(request, 'candidates/profile.html', context)
+@login_required
+def user_profile(request):
+    users = request.user
+    user_details = UserDetails.objects.get(user=users)
+    return render(request, 'user_app/view_user_profile.html', {'user_details': user_details})
 
-# edit profile
-# @login_required
-# def edit_profile(request):
-#     you = request.user
-#     profile = Profile.objects.filter(user=you).first()
-#     if request.method == 'POST':
-#         form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
-#         if form.is_valid():
-#             data = form.save(commit=False)
-#             data.user = you
-#             data.save()
-#             return redirect('my-profile')
-#     else:
-#         form = ProfileUpdateForm(instance=profile)
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'candidates/edit_profile.html', context)
+
+# edit
+@login_required
+def update_user_profile(request):
+    you = request.user
+    profile = UserDetails.objects.filter(user=you).first()
+    if request.method == "POST":
+        form = forms.UserUpdateProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('user_app:user_profile')
+    else:
+        form = forms.UserUpdateProfileForm(instance=profile)
+        form = forms.UserUpdateProfileForm()
+
+
+    context = {'form': form}
+    return render(request, 'user_app/edit_profile.html', context)
+
+
 
 # profile view for recruters
 # @login_required

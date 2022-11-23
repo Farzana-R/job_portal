@@ -5,14 +5,10 @@ from django.contrib.auth.models import User
 
 class UserDetails(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
-    # user_name = models.CharField(max_length=250, unique=True)
-    # first_name = models.CharField(max_length=250, unique=True)
-    # last_name = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, unique=True)
     # gender
     address = models.TextField(blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    # email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=14, unique=True)
     image = models.ImageField(upload_to='user_images', blank=True)
     description = models.TextField(blank=True) 
