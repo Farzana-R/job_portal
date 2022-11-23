@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.contrib.auth.models import User
-from . models import UserDetails
+
 from company_app.models import Job
+from . models import UserDetails, Favourites
 
 
 def user_dashboard(request):
@@ -19,7 +20,15 @@ def job_detail(request, job_id):
     job_detail = Job.objects.get(id=job_id)
     return render(request, 'user_app/job-detail.html', {'job_detail':job_detail})
 
+def favourites(request):
+    saved_jobs = Favourites.objects.filter(user=request.user)
+    return render(request, 'user_app/saved_jobs.html', {'saved_jobs':saved_jobs})
 
+
+def saved_job_delete(request, job_id):
+    Favourites.objects.get(id=job_id).delete()
+    saved_jobs = Favourites.objects.filter(user=request.user)
+    return render(request, 'user_app/saved_jobs.html', {'saved_jobs':saved_jobs})
 
 # user profile
 # @login_required

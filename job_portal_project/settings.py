@@ -97,9 +97,9 @@ WSGI_APPLICATION = 'job_portal_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': "django.db.backends.postgresql",
-        'NAME': 'job_portal_database',
-        'USER': 'job_portal',
-        'PASSWORD': 'portal',
+        'NAME': 'job_portal_database2',
+        'USER': 'job_portal2',
+        'PASSWORD': 'job_portal2',
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -154,9 +154,17 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Needed for sending email
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
+# EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
+# EMAIL_FROM = 'farzana.r@techversantinfo.com'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
-EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
-EMAIL_FROM = 'farzana.r@techversantinfo.com'
+EMAIL_HOST_USER = 'vishnu.ks@techversantinfo.com'
+EMAIL_HOST_PASSWORD = 'lelffhsdvsmxqzfh'
+EMAIL_USE_TLS = True

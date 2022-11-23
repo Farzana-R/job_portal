@@ -12,10 +12,11 @@
 <!-- navbar End --> 
 
     <div class="container">
+      <div class="row">
+        <div class="col-sm-2"></div>
 
-     
-
-<br><br>
+        <div class="col-sm-8">
+          <br><br>
         <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Create an Account</h1>
        
         <div class="card text-center" style="width: 40rem;">
@@ -28,7 +29,7 @@
 
 <br>
 
-  <div class="container-sm">
+  <div class="d-flex justify-content-center">
 <form action="" method="POST">
   {% csrf_token %}
 
@@ -46,13 +47,9 @@
 
 
 
-  <button type="submit">Register</button>
-
-  {% if messages %}
-    {% for msg in messages%}       
-      <h5>{{ msg }}</h5>
-    {% endfor%}
-  {% endif %}
+  <button type="submit" class="btn btn-primary py-2 px-4 ">Register</button>
+  <p>Already have an account? <a href="{% url 'loginview' %}">Login here</a></p>
+  
 
 </form>
 
@@ -60,6 +57,15 @@
 </div>         
 </div>
 </div>
+        </div>
+
+        <div class="col-sm-2"></div>
+
+      </div>
+
+     
+
+
 <!-- Footer Start -->
 {% include 'design/footer.html'%}
 <!-- Footer End -->

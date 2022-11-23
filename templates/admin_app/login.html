@@ -13,20 +13,23 @@
 <div class="container">
     <br><br>
 
-    <h3>login</h3>
+    <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Login</h1>
     <div class="d-flex justify-content-center">
 <form action="" method="POST">
     {% csrf_token %}
     {% for field in form %}
         <p>{{ field.label }}: <br> {{ field }}</p>
     {% endfor %}
-    <button type="submit">Login</button>
+    <a class="ml-5 float-left" href="{% url 'password_reset' %}">Forgot password?</a>
+    <br>
+    <button type="submit" class="btn btn-primary py-2 px-4 ">Login</button>
+    <p>Don't have an account? <a href="{% url 'user_register' %}">Signup here</a></p>
 </form>
 </div>
 <br><br>
 <div>
 
-<p>Don't have an account? <a href="{% url 'user_register' %}">Signup here</a></p>
+
 
 </div>
 </div>
