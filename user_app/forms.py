@@ -1,13 +1,11 @@
 from django import forms
-
-from django.contrib.auth.models import User
 from django.forms import ModelForm
+from django.contrib.auth.models import User
 
 from . models import UserDetails
 
 
 class UserUpdateProfileForm(forms.ModelForm):    
-
     class Meta:
         model = UserDetails
         fields = ['address', 'date_of_birth', 'phone_number', 'image',\
@@ -20,8 +18,3 @@ class UserUpdateProfileForm(forms.ModelForm):
             # 'image': forms.ImageField(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
         }
-
-
-
-
-

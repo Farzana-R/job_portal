@@ -2,14 +2,10 @@ from django.urls import path
 from .import views
 
 
-app_name = 'user_app'
 urlpatterns = [
-    path('user_dashboard', views.user_dashboard, name='user_dashboard'),
-    path('job_list', views.job_listing, name='job_list'),
-    path('job_detail/<int:job_id>/', views.job_detail, name='job_detail'),
-    path('change_password/', views.change_password, name='change_password'),
-    path('user_profile/', views.user_profile, name='user_profile'),
-    path('update_user_profile/', views.update_user_profile, name='update_user_profile'),
-
-  
+    path('user-dashboard/', views.UserDashboard.as_view(), name='user_dashboard'),
+    path('job-list/', views.JobListing.as_view(), name='job_list'),
+    path('job-detail/<int:job_id>/', views.JobDetail.as_view(), name='job_detail'),
+    path('user-profile/', views.UserProfile.as_view(), name='user_profile'),
+    path('update-user-profile/', views.UpdateUserProfile.as_view(), name='update_user_profile'), 
 ]
