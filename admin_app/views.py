@@ -7,12 +7,15 @@ from django.contrib.auth import login, authenticate
 from django.core.mail import send_mail
 from django.views.generic import View
 
+from company_app.models import Job
+
 from . import forms
 
 
 class Home(View):
     def get(self, request):
-        return render(request, 'index.html')
+        jobs = Job.objects.all()[:3]
+        return render(request, 'index.html', {'jobs' : jobs})
 
 
 class About(View):
@@ -25,28 +28,6 @@ class Contact(View):
         return render(request, 'design/contact.html')
 
 
-class UserRegister(View):
-
-    def get(self, request):
-        user_form = forms.UserRegisterForm()
-        context = {'form': user_form}
-        return render(request, 'admin_app/register.html', context)
-
-    def post(self, request):
-        user_form = forms.UserRegisterForm(request.POST)
-        if user_form.is_valid():
-            user_form.save()
-            #Send mail
-            email=user_form.cleaned_data['email']
-             
-            send_mail('HI WELCOME ...',
-                'Hi welcome to JOBRIAL',
-                settings.EMAIL_HOST_USER,[email],fail_silently=False)
-            return redirect('loginview')
-        messages.error(request,'password not matching')
-        context = {'form': user_form}
-        return render(request, 'admin_app/register.html', context)
-
 
 class CompanyRegister(View):
 
@@ -56,15 +37,12 @@ class CompanyRegister(View):
         return render(request, 'admin_app/register.html', context)
 
     def post(self, request):
-        
         company_form = forms.CompanyRegisterForm(request.POST)
-        
-        
-        
-        # confirmpassword = request.POST['confirmpassword']
+            
         if company_form.is_valid():
             company_form.save()
             return redirect('loginview')
+
         context = {'form': company_form}
         return render(request, 'admin_app/register.html', context)
 
@@ -72,20 +50,26 @@ class CompanyRegister(View):
 def loginview(request):
     form = forms.LoginForm()
     message = ''
+
     if request.method == 'POST':
         form = forms.LoginForm(request.POST)
+
         if form.is_valid():
             user = authenticate(
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password'],
             )
+
             if user is not None:
                 login(request, user)
                 return redirect('home')
+
             else:
                 message = 'Login failed!'
+
     return render(
-        request, 'admin_app/login.html', context={'form': form, 'message': message})
+        request, 'admin_app/login.html',\
+             context={'form': form, 'message': message})
 
 
 def logout(request):

@@ -10,7 +10,7 @@ class UserDetails(models.Model):
     address = models.TextField(blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     phone_number = models.CharField(max_length=14, unique=True)
-    image = models.ImageField(upload_to='user_images', blank=True)
+    image = models.ImageField(upload_to='user_images', blank=True, null=True)
     description = models.TextField(blank=True) 
 
     def __str__(self):

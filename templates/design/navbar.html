@@ -37,7 +37,7 @@
         {% if user.is_authenticated %}
         <a href="{% url 'user_app:user_dashboard' %}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Dashboard<i class="fa fa-arrow-right ms-3"></i></a>
         {% else %}
-        <a href="{% url 'loginview' %}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">SignUp / Login<i class="fa fa-arrow-right ms-3"></i></a>
+        <a href="{% url 'user_app:user_login' %}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
         {% endif %}
     </div>
 </nav>
