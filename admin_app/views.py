@@ -1,8 +1,6 @@
 from django.contrib import messages, auth
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.views import View
-
 from django.contrib.auth import login, authenticate
 from django.core.mail import send_mail
 from django.views.generic import View
@@ -28,9 +26,29 @@ class Contact(View):
         return render(request, 'design/contact.html')
 
 
+class UserRegister(View):
+    def get(self, request):
+        user_form = forms.UserRegisterForm()
+        context = {'form' : user_form}
+        return render(request, 'admin_app/register.html', context)
+
+    def post(self, request):
+        user_form = forms.UserRegisterForm(request.POST)
+        if user_form.is_valid():
+            user_form.save()
+            # Sending  mail to registered user
+            email=user_form.cleaned_data['email']             
+            send_mail('HI WELCOME ...',
+                'Hi welcome to JOBRIAL',
+                settings.EMAIL_HOST_USER, [email], fail_silently=False)
+            return redirect('loginview')
+
+        context = {'form' : user_form}
+        return render(request, 'admin_app/register.html', context)
+
+
 
 class CompanyRegister(View):
-
     def get(self, request):
         company_form = forms.CompanyRegisterForm()
         context = {'form': company_form}
@@ -47,12 +65,20 @@ class CompanyRegister(View):
         return render(request, 'admin_app/register.html', context)
 
 
+class Login(View):
+    def get(self, request):
+        form = forms.LoginForm()
+        context={'form': form}
+        return render(request, 'admin_app/login.html', context)
+    
+    def post(self, request):
 def loginview(request):
     form = forms.LoginForm()
     message = ''
 
     if request.method == 'POST':
         form = forms.LoginForm(request.POST)
+        context={'form': form}
 
         if form.is_valid():
             user = authenticate(
@@ -63,6 +89,7 @@ def loginview(request):
             if user is not None:
                 login(request, user)
                 return redirect('home')
+        return render(request, 'admin_app/login.html', context)
 
             else:
                 message = 'Login failed!'
@@ -72,16 +99,7 @@ def loginview(request):
              context={'form': form, 'message': message})
 
 
-def logout(request):
-    auth.logout(request)
-    return redirect('home')
-
-# this function not used yet
-def change_password(request):
-    u = User.objects.get(username='john')
-    u.set_password('new password')
-    u.save()
-
-
-# def home(request):
-#     return render(request, 'index.html')
+class Logout(View):
+    def get(self, request):
+        auth.logout(request)
+        return redirect('home')

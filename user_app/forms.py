@@ -1,12 +1,11 @@
 from django import forms
+from django.forms import ModelForm, PasswordInput
 from django.contrib.auth.models import User
-from django.forms import PasswordInput, ValidationError, ModelForm
 
 from . models import UserDetails
 
 
 class UserUpdateProfileForm(forms.ModelForm):    
-
     class Meta:
         model = UserDetails
         fields = ['address', 'date_of_birth', 'phone_number', 'image',\
@@ -21,11 +20,12 @@ class UserUpdateProfileForm(forms.ModelForm):
         }
 
 
-class UserLoginForm(forms.Form):
+
+class LoginForm(forms.Form):
     username = forms.CharField(max_length=63)
     password = forms.CharField(max_length=63, widget=forms.PasswordInput)
 
-    
+
 class UserRegisterForm(forms.ModelForm):
     phone_number = forms.CharField(max_length=14)
     password = forms.CharField(widget=PasswordInput())
@@ -34,7 +34,42 @@ class UserRegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', \
-            'phone_number','password', 'confirm_password']
+            'phone_number','password', 'confirm_password']    
+
+    def clean(self):
+        super(UserRegisterForm, self).clean()
+
+        username = self.cleaned_data.get('username') 
+        first_name = self.cleaned_data.get('first_name') 
+        last_name = self.cleaned_data.get('last_name') 
+        phone_number = self.cleaned_data.get('phone_number') 
+        password= self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+          
+        if len(username) < 4 :
+            raise forms.ValidationError({"username":"Username \
+                                        should be atleat \
+                                        4 character long."})
+        
+        if not first_name.isalpha():
+            raise forms.ValidationError({"first_name":"First name \
+                                        should not containe \
+                                        any digits or \
+                                        special characters."})
+       
+        if not last_name.isalpha():
+            raise forms.ValidationError({"last_name":"Last name \
+                                        should not containe \
+                                        any digits or \
+                                        special characters."})
+
+        if not phone_number.isdigit():
+            raise forms.ValidationError({"phone_number":"Invalid \
+                                        phone number."})
+
+        if password != confirm_password:
+            raise forms.ValidationError({"password": "Password \
+                                        mismatch"})
 
     def save(self):
         user = super().save(commit=False)
@@ -43,49 +78,6 @@ class UserRegisterForm(forms.ModelForm):
         user.save()
 
         phone_num = self.cleaned_data['phone_number']
-        UserDetails.objects.create(user = user, 
-                phone_number = phone_num,
+        UserDetails.objects.create(user = user, phone_number = phone_num,
                 slug = user.username+str(user.id)).save()            
         return user
-
-
-    def clean(self):
-            super(UserRegisterForm, self).clean()
-       
-            username = self.cleaned_data.get('username') 
-            first_name = self.cleaned_data.get('first_name') 
-            last_name = self.cleaned_data.get('last_name') 
-            phone_number = self.cleaned_data.get('phone_number') 
-            password= self.cleaned_data.get('password')
-            confirm_password = self.cleaned_data.get('confirm_password')
-          
-            if len(username) < 4 :
-                raise forms.ValidationError({"username":"Username \
-                                            should be atleat \
-                                            4 character long."})
-        
-            if not first_name.isalpha():
-                raise forms.ValidationError({"first_name":"First name \
-                                            should not containe \
-                                            any digits or \
-                                            special characters."})
-       
-            if not last_name.isalpha():
-                raise forms.ValidationError({"last_name":"Last name \
-                                            should not containe \
-                                            any digits or \
-                                            special characters."})
-
-            if not phone_number.isdigit():
-                raise forms.ValidationError({"phone_number":"Invalid \
-                                            phone number."})
-
-            if password != confirm_password:
-                raise forms.ValidationError({"password": "Password mismatch"})
-
-
-
-
-
-
-

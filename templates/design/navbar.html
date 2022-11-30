@@ -17,7 +17,7 @@
             <!-- <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
                 <div class="dropdown-menu rounded-0 m-0">
-                    <a href="{% url 'user_app:job_list' %}" class="dropdown-item">Job List</a>
+                    <a href="{% url 'job_list' %}" class="dropdown-item">Job List</a>
                     <a href="job-detail.html" class="dropdown-item">Job Detail</a>
                 </div>
             </div> -->
@@ -35,9 +35,10 @@
             {% endif %}
         </div>
         {% if user.is_authenticated %}
-        <a href="{% url 'user_app:user_dashboard' %}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Dashboard<i class="fa fa-arrow-right ms-3"></i></a>
+        <a href="{% url 'user_dashboard' %}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Dashboard<i class="fa fa-arrow-right ms-3"></i></a>
         {% else %}
         <a href="{% url 'user_app:user_login' %}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
+        <a href="{% url 'login' %}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">SignUp / Login<i class="fa fa-arrow-right ms-3"></i></a>
         {% endif %}
     </div>
 </nav>
