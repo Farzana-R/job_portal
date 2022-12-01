@@ -26,8 +26,8 @@
                                  <a class="btn btn-light btn-square me-3" href="#"><i class="far fa-heart text-primary"></i></a>
                                  <a class="btn btn-primary" href="{% url 'user_app:job_detail' job.id %}">Apply Now</a>
                                  {% else %}
-                                 <a class="btn btn-light btn-square me-3" href="{% url 'user_app:user_login' %}"><i class="far fa-heart text-primary"></i></a>
-                                 <a class="btn btn-primary" href="{% url 'user_app:user_login' %}">Apply Now</a>
+                                 <a class="btn btn-light btn-square me-3" href="{% url 'user_app:login' %}"><i class="far fa-heart text-primary"></i></a>
+                                 <a class="btn btn-primary" href="{% url 'user_app:login' %}">Apply Now</a>
                                  {% endif %}
                                 </div>
                                 <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: {{job.posting_date}}</small>
@@ -114,10 +114,11 @@
                             </div>
                         </div>
                     </div> -->
-                    <a class="btn btn-primary py-3 px-5" href="{% url 'job_list' %}">Browse More Jobs</a>
                     {% endfor %}
-                    
                     <a class="btn btn-primary py-3 px-5" href="{% url 'user_app:job_list' %}">Browse More Jobs</a>
+                    
+                    
+                    <!-- <a class="btn btn-primary py-3 px-5" href="{% url 'user_app:job_list' %}">Browse More Jobs</a> -->
                 </div>
                 
             </div>

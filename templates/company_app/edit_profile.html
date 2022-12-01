@@ -6,7 +6,9 @@
  {% include 'design/spinner.html'%}
  <!-- Spinner End -->
 
-
+<!-- navbar Start -->
+{% include 'company_app/company_navbar.html'%}
+<!-- navbar End -->
 
  <div class="col-sm p-3 min-vh-100">
     <div class="container-fluid">
@@ -14,10 +16,7 @@
         <div class="row">
 
     
-         <!-- Sidebar Start -->
- {% include 'design/sidebar.html'%}
- <!-- Sidebar End -->
- <div class="col">
+    <div class="col">
 
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -39,7 +38,7 @@
      
 
   <div class="container-sm">
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="" method="POST">
   {% csrf_token %}
 
   {% for field in form %}

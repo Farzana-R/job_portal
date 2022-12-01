@@ -31,13 +31,16 @@ class JobDetail(View):
         return render(request, 'user_app/job-detail.html', {'job_detail':job_detail})
 
 
+# view profile
 @method_decorator(login_required, name='get')
 class UserProfile(View):
     def get(self, request):
         user_details = UserDetails.objects.get(user=request.user)
+        print(user_details.image)
         return render(request, 'user_app/view_user_profile.html', {'user_details': user_details})
 
 
+# edit profile
 @method_decorator(login_required, name='get')
 class UpdateUserProfile(View):
     def get(self, request):
@@ -49,7 +52,7 @@ class UpdateUserProfile(View):
         form = forms.UserUpdateProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('user_profile')
+            return redirect('user_app:user_profile')
         else:
             return render(request, 'user_app/edit_profile.html', {'form': form})
 
@@ -60,7 +63,7 @@ class UserRegister(View):
     def get(self, request):
         user_form = forms.UserRegisterForm()
         context = {'form' : user_form}
-        return render(request, 'admin_app/register.html', context)
+        return render(request, 'user_app/register.html', context)
 
     def post(self, request):
         user_form = forms.UserRegisterForm(request.POST)
@@ -71,17 +74,17 @@ class UserRegister(View):
             send_mail('HI WELCOME ...',
                 'Hi welcome to JOBRIAL',
                 settings.EMAIL_HOST_USER, [email], fail_silently=False)
-            return redirect('loginview')
+            return redirect('user_app:login')
 
         context = {'form' : user_form}
-        return render(request, 'admin_app/register.html', context)
+        return render(request, 'user_app/register.html', context)
 
 
 class Login(View):
     def get(self, request):
         form = forms.LoginForm()
         context={'form': form}
-        return render(request, 'admin_app/login.html', context)
+        return render(request, 'user_app/login.html', context)
     
     def post(self, request):
         form = forms.LoginForm(request.POST)
@@ -94,4 +97,4 @@ class Login(View):
             if user is not None:
                 login(request, user)
                 return redirect('home')
-        return render(request, 'admin_app/login.html', context)
+        return render(request, 'user_app/login.html', context)
