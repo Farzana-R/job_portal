@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from company_app.models import Job
+
 # Create your models here.
 
 class UserDetails(models.Model):
@@ -17,3 +19,11 @@ class UserDetails(models.Model):
         return '{}'.format(self.user.first_name)
     # def __str__(self):
     #     return self.user.username
+
+
+class Favourites(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    job = models.ForeignKey(Job, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return (str(self.user)+ str(self.job))
