@@ -24,8 +24,9 @@
         
         <span class="navbar-text" style="padding-left: 35%;">
             
-          <h1>Hi {{company_details.name}} : Your Profile </h1>
+          <h1>Hi <i style="color: red;">{{company_details.name}}</i> : Your Profile </h1>
         </span>
+        <a href="{% url 'company_app:update_company_profile' %}" class="nav-item nav-link" style="padding-left: 15%;">edit profile</a>
       </div>
     </div>
   </nav>
@@ -42,8 +43,24 @@
             <div class="col-lg-4">
               <div class="card mb-4">
                 <div class="card-body text-center">
-                  <img src={{company_details.image.url}} alt="avatar"
+
+
+
+                  {% if company_details.logo %}
+                  <img src={{company_details.logo.url}} alt="avatar"
                     class="rounded-circle img-fluid" style="width: 150px;">
+                    {% else %}
+                    <img src="" alt="avatar"
+                    class="rounded-circle img-fluid" style="width: 150px;">
+                    {% endif %}
+
+
+
+
+
+
+                  <!-- <img src={{company_details.image.url}} alt="avatar"
+                    class="rounded-circle img-fluid" style="width: 150px;"> -->
                   <h5 class="my-3">{{user.name}}</h5>
                   <p class="text-muted mb-1">{{comany_details.description}}</p>
                   <p class="text-muted mb-4">{{company_details.address}}</p>
