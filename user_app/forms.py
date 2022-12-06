@@ -5,10 +5,11 @@ from django.contrib.auth.models import User
 from . models import UserDetails
 
 
-class UserUpdateProfileForm(forms.ModelForm):    
+class UserUpdateProfileForm(forms.ModelForm):   
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'})) 
     class Meta:
         model = UserDetails
-        fields = ['address', 'date_of_birth', 'phone_number', 'image',\
+        fields = ['first_name','address', 'date_of_birth', 'phone_number', 'image',\
             'description']
 
         widgets = {

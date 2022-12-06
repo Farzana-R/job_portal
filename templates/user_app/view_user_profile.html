@@ -28,8 +28,13 @@
             <div class="col-lg-4">
               <div class="card mb-4">
                 <div class="card-body text-center">
-                  <img src="{{user_details.image.url}}" alt="avatar"
+                  {% if user_details.image %}
+                  <img src={{user_details.image.url}} alt="avatar"
                     class="rounded-circle img-fluid" style="width: 150px;">
+                  {% else %}
+                  <img src=" " alt="avatarrr"
+                    class="rounded-circle img-fluid" style="width: 150px;">
+                  {% endif %}
                   <h5 class="my-3">{{user.first_name}} {{user.last_name}}</h5>
                   <p class="text-muted mb-1">{{user_details.description}}</p>
                   <p class="text-muted mb-4">{{user_details.address}}</p>
