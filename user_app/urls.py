@@ -11,10 +11,13 @@ urlpatterns = [
     path('job-detail/<int:job_id>/', views.JobDetail.as_view(), name='job_detail'),
     path('user-profile/', views.UserProfile.as_view(), name='user_profile'),
     path('update-user-profile/', views.UpdateUserProfile.as_view(), name='update_user_profile'),
+
     path('favourites-job/', views.favourites, name='favourites-job'),
-    path('saved_job_delete/<int:job_id>/', views.saved_job_delete, name='saved_job_delete'),
     path('job/<slug>/save/', views.save_job, name='save-job'),
-    # path('job/<slug>/apply/', views.apply_job, name='apply-job'),
-    # path('applied_job_list/', views.applied_jobs, name='applied-jobs'),
+    path('saved_job_delete/<int:job_id>/', views.saved_job_delete, name='saved_job_delete'),
+
+    path('apply-job/<int:job_id>/', views.apply_job, name='apply-job'),
+    # path('job/<int:job_id>/apply/', views.apply_job, name='apply-job'),
+    # path('applied_jobs/', views.applied_jobs, name='applied_jobs'),
     # path('job/<slug>/remove/', views.remove_job, name='remove-job'),
 ]

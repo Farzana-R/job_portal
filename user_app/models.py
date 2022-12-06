@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from company_app.models import Job
 
@@ -26,4 +27,15 @@ class Favourites(models.Model):
     job = models.ForeignKey(Job, on_delete = models.CASCADE)
 
     def __str__(self):
-        return (str(self.user)+ str(self.job))
+        return (str(self.user)+str('-->')+str(self.job))
+
+
+class AppliedJobs(models.Model):
+    job = models.ForeignKey(
+        Job, related_name='applied_job', on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, related_name='applied_user', on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.job.job_name

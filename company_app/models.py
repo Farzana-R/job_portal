@@ -1,6 +1,6 @@
 from django.db import models
-
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 
@@ -38,6 +38,28 @@ class Job(models.Model):
 
     def __str__(self):
         return '{}'.format(self.job_name)
+
+
+class Applicants(models.Model):
+    job = models.ForeignKey(
+        Job, related_name='applicants', on_delete=models.CASCADE)
+    applicant = models.ForeignKey(
+        User, related_name='applied', on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.applicant
+
+
+class Selected(models.Model):
+    job = models.ForeignKey(
+        Job, related_name='select_job', on_delete=models.CASCADE)
+    applicant = models.ForeignKey(
+        User, related_name='select_applicant', on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.applicant
 
     
 

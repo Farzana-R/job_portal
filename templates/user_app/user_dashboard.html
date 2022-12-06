@@ -27,7 +27,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for job in jobs %}
+            {% for job, status in zipped %}
             <tr>
               <!-- <th scope="row">1</th> -->
               <td><img class="flex-shrink-0 img-fluid border rounded" src={{job.company.logo.url}} alt="" style="width: 80px; height: 80px;">

@@ -8,16 +8,10 @@ from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from company_app.models import Job
-from user_app.models import UserDetails, Favourites
+from company_app.models import Applicants, Job, Selected
+from user_app.models import AppliedJobs, UserDetails, Favourites
 
 from . import forms
-
-
-class UserDashboard(View):
-    def get(self, request):
-        jobs = Job.objects.all()
-        return render(request, 'user_app/user_dashboard.html', {'jobs' : jobs})
 
 
 class JobListing(View):
@@ -42,7 +36,7 @@ def save_job(request, slug):
     # return HttpResponseRedirect('/job/{}'.format(job.slug))
 
 
-# saved job view
+# to view saved jobs
 def favourites(request):
     saved_jobs = Favourites.objects.filter(user=request.user)
     return render(request, 'user_app/saved_job.html', {'saved_jobs':saved_jobs})
@@ -52,6 +46,70 @@ def saved_job_delete(request, job_id):
     Favourites.objects.get(id=job_id).delete()
     saved_jobs = Favourites.objects.filter(user=request.user)
     return render(request, 'user_app/saved_job.html', {'saved_jobs':saved_jobs})
+
+
+# apply for a job
+@login_required
+def apply_job(request, job_id):
+    user = request.user
+    job = get_object_or_404(Job, id=job_id)
+    applied, created = AppliedJobs.objects.get_or_create(job=job, user=user)
+    applicant, creation = Applicants.objects.get_or_create(
+        job=job, applicant=user)
+    return redirect('user_app:user_dashboard')
+    # return HttpResponseRedirect('/job/{}'.format(job.slug))
+
+
+# class UserDashboard(View):
+#     def get(self, request):
+#         jobs = Job.objects.all()
+#         return render(request, 'user_app/user_dashboard.html', {'jobs' : jobs})
+
+
+
+# dashboard (view applied jobs)
+class UserDashboard(View):
+
+    def get(self, request):
+        jobs = AppliedJobs.objects.filter(
+        user=request.user).order_by('-date_posted')
+        print(jobs)
+        print('aaaaaaaaaaaaaaaaa')
+        
+        statuses = []
+        for job in jobs:
+            print(job.job)
+            print("bbbbbbbbbbbbbbbbbbbbbb")
+            if Selected.objects.filter(job=job.job).filter(applicant=request.user).exists():
+                statuses.append(0)
+            elif Applicants.objects.filter(job=job.job).filter(applicant=request.user).exists():
+                statuses.append(1)
+            else:
+                statuses.append(2)
+        zipped = zip(jobs, statuses)
+        print(zipped)
+        print('cccccccccccccccccccc')
+        return render(request, 'user_app/user_dashboard.html', {'zipped': zipped})
+
+
+
+
+# view applied jobs
+# @login_required
+# def applied_jobs(request):
+#     jobs = AppliedJobs.objects.filter(
+#         user=request.user).order_by('-date_posted')
+#     statuses = []
+#     for job in jobs:
+#         if Selected.objects.filter(job=job.job).filter(applicant=request.user).exists():
+#             statuses.append(0)
+#         elif Applicants.objects.filter(job=job.job).filter(applicant=request.user).exists():
+#             statuses.append(1)
+#         else:
+#             statuses.append(2)
+#     zipped = zip(jobs, statuses)
+#     return render(request, 'user_app/user_dashboard.html', {'zipped': zipped})
+#     # return render(request, 'user_app/applied_jobs.html', {'zipped': zipped, 'candidate_navbar': 1})
 
 
 # view profile
