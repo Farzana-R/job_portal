@@ -1,4 +1,3 @@
-
 from django.contrib import messages, auth
 from django.conf import settings
 from django.shortcuts import HttpResponseRedirect, render, redirect, get_object_or_404
@@ -33,7 +32,6 @@ def save_job(request, slug):
     job = get_object_or_404(Job, slug=slug)
     saved, created = Favourites.objects.get_or_create(job=job, user=user)
     return redirect('user_app:favourites-job')
-    # return HttpResponseRedirect('/job/{}'.format(job.slug))
 
 
 # to view saved jobs
@@ -60,26 +58,15 @@ def apply_job(request, job_id):
     # return HttpResponseRedirect('/job/{}'.format(job.slug))
 
 
-# class UserDashboard(View):
-#     def get(self, request):
-#         jobs = Job.objects.all()
-#         return render(request, 'user_app/user_dashboard.html', {'jobs' : jobs})
-
-
-
 # dashboard (view applied jobs)
 class UserDashboard(View):
 
     def get(self, request):
         jobs = AppliedJobs.objects.filter(
         user=request.user).order_by('-date_posted')
-        print(jobs)
-        print('aaaaaaaaaaaaaaaaa')
         
         statuses = []
         for job in jobs:
-            print(job.job)
-            print("bbbbbbbbbbbbbbbbbbbbbb")
             if Selected.objects.filter(job=job.job).filter(applicant=request.user).exists():
                 statuses.append(0)
             elif Applicants.objects.filter(job=job.job).filter(applicant=request.user).exists():
@@ -87,29 +74,8 @@ class UserDashboard(View):
             else:
                 statuses.append(2)
         zipped = zip(jobs, statuses)
-        print(zipped)
-        print('cccccccccccccccccccc')
         return render(request, 'user_app/user_dashboard.html', {'zipped': zipped})
 
-
-
-
-# view applied jobs
-# @login_required
-# def applied_jobs(request):
-#     jobs = AppliedJobs.objects.filter(
-#         user=request.user).order_by('-date_posted')
-#     statuses = []
-#     for job in jobs:
-#         if Selected.objects.filter(job=job.job).filter(applicant=request.user).exists():
-#             statuses.append(0)
-#         elif Applicants.objects.filter(job=job.job).filter(applicant=request.user).exists():
-#             statuses.append(1)
-#         else:
-#             statuses.append(2)
-#     zipped = zip(jobs, statuses)
-#     return render(request, 'user_app/user_dashboard.html', {'zipped': zipped})
-#     # return render(request, 'user_app/applied_jobs.html', {'zipped': zipped, 'candidate_navbar': 1})
 
 
 # view profile
