@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'admin_app',
     'company_app',
     'user_app',
-    'frontend',
+    'subscription',
 ]
 
 MIDDLEWARE = [
