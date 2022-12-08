@@ -8,6 +8,7 @@ python
 Django
 
 Chat Creation
+
     - create app chat
 
     - add app into installed apps
@@ -17,7 +18,7 @@ Chat Creation
     - create view
 
     - create urls
-    
+
     - Integrate Channels
         * add in job_portal_project.asgi file
         * add the Daphne library to the list of installed apps
