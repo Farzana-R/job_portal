@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from company_app.models import Applicants, Job, Selected
-from user_app.models import AppliedJobs, UserDetails, Favourites
+from user_app.models import AppliedJobs, Skill, UserDetails, Favourites
 
 from . import forms
 
@@ -76,6 +76,19 @@ class UserDashboard(View):
         zipped = zip(jobs, statuses)
         return render(request, 'user_app/user_dashboard.html', {'zipped': zipped})
 
+
+# view profile for companies
+@login_required
+def profile_view(request, slug):
+    profile = UserDetails.objects.filter(slug=slug).first()
+    you = profile.user
+    user_skills = Skill.objects.filter(user=you)
+    context = {
+        'you': you,
+        'profile': profile,
+        'skills': user_skills,
+    }
+    return render(request, 'user_app/profile.html', context)
 
 
 # view profile

@@ -12,18 +12,19 @@
             <a href="{% url 'company_app:company_home' %}" class="nav-item nav-link active">Welcome company :{{ user.username }}!</a>
             {% endif %}
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
                 <div class="dropdown-menu rounded-0 m-0">
-                    <a href="" class="dropdown-item">Your Job List</a>
-                    <a href="" class="dropdown-item">Add job</a>
-                    <a href="" class="dropdown-item">Applied job list</a>
+                    <a href="{% url 'company_app:all_jobs' %}" class="dropdown-item">Your Job List</a>
+                    <a href="{% url 'company_app:add_job' %}" class="dropdown-item">Add job</a>
+                    <!-- <a href="" class="dropdown-item">edit job </a> -->
                 </div>
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Candidates</a>
                 <div class="dropdown-menu rounded-0 m-0">
-                    <a href="" class="dropdown-item">All candidates</a>
+                    <a href="" class="dropdown-item">Selected candidates</a>
                     <a href="" class="dropdown-item">Applied candidates</a>
+                    <a href="" class="dropdown-item">All candidates</a>
                 </div>
             </div>
             <div class="nav-item dropdown">

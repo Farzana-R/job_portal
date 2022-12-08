@@ -17,4 +17,7 @@ urlpatterns = [
 
     path('apply-job/<int:job_id>/', views.apply_job, name='apply-job'),
     path('user-dashboard/', views.UserDashboard.as_view(), name='user_dashboard'),
+
+    path('profile/<slug>', views.profile_view, name='profile_view'),
+
 ]

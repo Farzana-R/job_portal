@@ -4,7 +4,33 @@ from django.forms import PasswordInput, ValidationError
 # from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from company_app.models import Company
+from company_app.models import Company, Job
+
+
+class NewJobForm(forms.ModelForm):
+    class Meta:
+        model = Job
+        fields = ['job_name', 'area_of_job', 
+                  'description','requirements', 'benifits',
+                  'job_type', 'location', 'skills_req']
+
+    # def save(self):
+    #     user = super().save(commit=False)
+    #     print(user.job_name)
+    #     print(user.area_of_job)
+    #     Job.objects.create(
+    #         job_name=user.job_name,
+    #     slug = user.job_name+str(user.id)).save()               
+    #     return user
+
+
+
+class JobUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Job
+        fields = ['job_name', 'area_of_job',
+                  'description','requirements', 'benifits',
+                  'job_type', 'location', 'skills_req']
 
 
 class CompanyUpdateProfileForm(forms.ModelForm):    
