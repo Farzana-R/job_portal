@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'company_app',
     'user_app',
     'frontend',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -79,6 +81,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'job_portal_project.wsgi.application'
+ASGI_APPLICATION = 'job_portal_project.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 # Database

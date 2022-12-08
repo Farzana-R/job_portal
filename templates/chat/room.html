@@ -1,0 +1,87 @@
+{% extends 'design/base.html'%}
+{% load static %}
+{% block content %}  
+      
+<!-- Spinner Start -->
+{% include 'design/spinner.html'%}
+<!-- Spinner End -->
+
+<div class="col-sm p-3 min-vh-100">
+  <div class="container-fluid">
+    <div class="row">       
+      <!-- Sidebar Start -->
+      {% include 'design/sidebar.html'%}
+      <!-- Sidebar End -->
+
+      <div class="col">
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Chat</h1>
+        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+          <div class="tab-content">
+            <div id="tab-1" class="tab-pane fade show p-0 active">
+               <div class="job-item p-4 mb-4">
+                    <div class="row g-4">
+                        <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                            <div class="text-start ps-4">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <b>Select company to chat with..</b>
+                                  <div class="custom-select">
+                                    <select name="company" id="company" style="width:270px;">
+                                      <option value="...." selected>...</option>
+                                      {% for company in company %}
+                                      <option value="{{company}}">{{company}}</option>
+                                      {% endfor %}
+                                    </select>
+                                  </div>
+                                  <br>
+                                  <button onclick="getCompanyOption()" class="btn btn-primary"> Confirm</button>
+                                </div>
+                                <div class="col-md-2"><b>OR</b></div>  
+                                <div class="col-md-4">
+                                  <b>Select user to chat with..</b> 
+                                  <div class="custom-select">
+                                    <select name="user" id="user" style="width:270px;">
+                                      <option value="...." selected>...</option>
+                                      {% for user in users %}
+                                      <option value="{{user.user.username}}">{{user.user.username}}</option>
+                                      {% endfor %}
+                                    </select>
+                                  </div>
+                                  <br>
+                                  <button onclick="getUserOption()" class="btn btn-primary"> Confirm</button>
+                                </div>  
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                        </div>
+                    </div>
+               </div>
+            </div>
+        </div>
+    </div>   
+      </div>              
+    </div>
+  </div>       
+</div>
+
+<!-- Footer Start -->
+{% include 'design/footer.html'%}
+<!-- Footer End -->
+  
+<script>
+  function getCompanyOption() {
+    selectElement = document.querySelector('#company');
+    roomName = selectElement.value;
+    window.location.pathname = '/chat/' + roomName + '/';
+  }
+  
+  function getUserOption() {
+    selectElement = document.querySelector('#user');
+    roomName = selectElement.value;
+    window.location.pathname = '/chat/' + roomName + '/';
+  }
+
+</script>
+
+{% endblock %}

@@ -27,15 +27,15 @@
             </tr>
           </thead>
           <tbody>
-            {% for job in jobs %}
+            {% for job in zipped %}
             <tr>
               <!-- <th scope="row">1</th> -->
-              <td><img class="flex-shrink-0 img-fluid border rounded" src={{job.company.logo.url}} alt="" style="width: 80px; height: 80px;">
+              <td><img class="flex-shrink-0 img-fluid border rounded" src="{{job.job.company.logo.url}}" alt="logo" style="width: 80px; height: 80px;">
               </td>
-              <td>{{job.job_name}}</td>
-              <td>{{job.company.address}}</td>
-              <td>{{job.posting_date}}</td>
-              <!-- <td><a class="btn btn-primary" href="{% url 'job_detail' job.id %}">Apply Now</a> -->
+              <td>{{job.job.job_name}}</td>
+              <td>{{job.job.company}}</td>
+              <td>{{job.job.posting_date}}</td>
+              <!-- <td><a class="btn btn-primary" href="">Apply Now</a> -->
               </td>
             </tr>
             {% endfor %}

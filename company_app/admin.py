@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Company, Job
+from .models import Company, Job, Applicants, Selected
 
 
 
@@ -15,4 +15,7 @@ class JobAdmin(admin.ModelAdmin):
     list_display = ['job_name','slug']
     prepopulated_fields = {'slug':('job_name',)}
 admin.site.register(Job,JobAdmin)
+
+admin.site.register(Applicants)
+admin.site.register(Selected)
 
