@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/chat/{{request.user}}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+                        <a href="{% url 'chat_app:chat_room' request.user %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
                             <i class="bi bi-chat fs-1"></i>
                             <br>
                             messages
