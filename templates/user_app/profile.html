@@ -1,0 +1,136 @@
+{% extends 'design/base.html'%}
+{% load static %}
+{% block content %}  
+  
+     
+    <!-- Spinner Start -->
+    {% include 'design/spinner.html'%}
+    <!-- Spinner End -->
+
+    <!-- navbar Start -->
+    {% include 'company_app/company_navbar.html'%}
+    <!-- navbar End -->
+
+    <br /><br />
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarText">
+                <span class="navbar-text" style="padding-left: 35%;">
+                    <h1>Candidate Profile View</h1>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <br /><br />
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h3 class="text-center">Profile Data</h3>
+          <br />
+          <form class="form-signin">
+            <div class="form-group">
+              <p>Name: {{ you.first_name }} {{ you.last_name }}</p>
+              <p>Email: {{ you.email }}</p>
+              <p>Country: {{ profile.country}}</p>
+              <p>Location: {{ profile.location }}</p>
+              <p>Graduation Year: {{ profile.grad_year }}</p>
+              <p>Looking For: {{ profile.looking_for }}</p>
+              {% if profile.resume %}
+              <p>
+                Resume:
+                <a href="{{ profile.resume.url }}">Click to View/Download</a>
+              </p>
+              {% else %}
+              <p>Resume: Not Provided</p>
+              {% endif %} 
+
+              <!-- {% if request.user == you %}
+              <hr class="my-4" />
+              <a
+                class="btn btn-warning btn-block"
+                href="{% url 'edit-profile' %}"
+                >Edit Profile</a
+              ><br />
+
+              <a class="btn btn-primary btn-block" href="{% url 'saved-jobs' %}"
+                >Saved Jobs</a
+              ><br />
+              <a
+                class="btn btn-success btn-block"
+                href="{% url 'applied-jobs' %}"
+                >Applied Jobs</a
+              >
+              {% endif %} -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h3 class="text-center">Skills ({{ skills.count }})</h3>
+          <br />
+          {% if request.user != you %}
+          <ol>
+            {% for skill in skills %}
+            <li>{{skill.skill}}</li>
+            {% endfor %}
+          </ol>
+          <!-- {% else %}
+          <form class="form-signin" method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+              <br />
+              {{ form }}
+            </fieldset>
+            <div class="form-group">
+              <button
+                class="btn btn-lg btn-outline-primary btn-block"
+                type="submit"
+              >
+                Add Skill</button
+              ><br />
+            </div>
+          </form>
+          <br />
+          {% if skills %}
+          <form
+            class="form-signin"
+            action="{% url 'skill-delete' %}"
+            method="POST"
+          >
+            {% csrf_token %} {% for skill in skills %}
+            <div>
+              <input
+                class="mr-2"
+                type="checkbox"
+                value="{{ skill.id }}"
+                name="choices"
+              />{{ skill.skill }}
+            </div>
+            {% endfor %}
+            <br />
+            <div class="form-group">
+              <button
+                class="btn btn-lg btn-outline-danger btn-block"
+                type="submit"
+                name="delete"
+              >
+                Delete Selected Skills</button
+              ><br />
+            </div>
+          </form>
+          {% endif %} -->
+          {% endif %} 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

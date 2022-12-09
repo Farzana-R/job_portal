@@ -1,0 +1,80 @@
+{% extends 'design/base.html'%}
+{% load static %}
+{% block content %}  
+  
+     
+    <!-- Spinner Start -->
+    {% include 'design/spinner.html'%}
+    <!-- Spinner End -->
+
+        <!-- navbar Start -->
+        {% include 'company_app/company_navbar.html'%}
+        <!-- navbar End -->
+
+        <br /><br />
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+              
+              <div class="collapse navbar-collapse" id="navbarText">
+                
+                <span class="navbar-text" style="padding-left: 35%;">
+                    
+                 <h1>Selected Candidates</h1>
+                </span>
+              </div>
+            </div>
+          </nav>
+
+<br /><br />
+<div>
+  <h4 class="text-center">
+    Seleted Applicants for <b>{{job.job_name}}</b>
+  </h4>
+  <br />
+  {% if profiles %}
+  <div class="row">
+    {% for profile in profiles %}
+    <div class="col-md-4">
+      <div class="card card-signin my-2">
+        <span class="ml-3 mt-3">
+          <a href="{% url 'user_app:profile_view' profile.slug %}">
+            {% if profile.first_name %}
+            <h4 class="text-dark">
+              <b>{{profile.first_name}} {{profile.last_name}}</b>
+            </h4>
+            {% else %}
+            <h4 class="text-dark">
+              <b>{{profile.user.username}}</b>
+            </h4>
+            {% endif %}
+          </a>
+          <p style="font-size: 17px">
+            {{profile.user.email}}<br />{{profile.country}}
+          </p>
+          {% if profile.resume %}
+          <a href="{{profile.resume.url}}">Click here to view the resume</a>
+          {% else %}
+          <p>No Resume Provided!</p>
+          {% endif %}
+        </span>
+        <div class="card-footer">
+          <a
+            class="btn btn-success mr-2"
+            href="{% url 'user_app:profile_view' profile.slug %}"
+            >Visit Profile
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-center">
+    No applicant has been selected till now! Select some
+    <a href="{% url 'company_app:applicant_list' job.slug %}">applicant</a> first!
+  </p>
+  <br />
+  {% endif %}
+</div>
+{% endblock content %}

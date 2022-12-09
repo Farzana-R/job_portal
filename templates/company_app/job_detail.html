@@ -1,0 +1,92 @@
+{% extends 'design/base.html'%}
+{% load static %}
+{% block content %}  
+  
+     
+    <!-- Spinner Start -->
+    {% include 'design/spinner.html'%}
+    <!-- Spinner End -->
+
+        <!-- navbar Start -->
+        {% include 'company_app/company_navbar.html'%}
+        <!-- navbar End -->
+
+        <br /><br />
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+              
+              <div class="collapse navbar-collapse" id="navbarText">
+                
+                <span class="navbar-text" style="padding-left: 35%;">
+                    
+                 <h1>Job Details</h1>
+                </span>
+              </div>
+            </div>
+          </nav>
+
+
+        <!-- {{request.user}}
+        {{job.company}} -->
+        
+
+<br /><br />
+<div class="container">
+  
+    <div class="col-md-12">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h3>
+            <b>{{job.job_name}} </b>
+          </h3>
+          <p>({{job.job_type}})</p>
+          <p style="font-size: 18px">location :- {{job.location}}</p>
+          {% if not job.link %}
+          <a
+            class="btn btn-info btn-lg mr-2"
+            href="{% url 'company_app:applicant_list' job.slug %}"
+            ><b>Applicants List</b></a
+          >
+          <a
+            class="btn btn-success btn-lg mr-2"
+            href="{% url 'company_app:selected_list' job.slug %}"
+            ><b>Selected List</b></a
+          >
+          {% endif %}
+          <a
+            class="btn btn-warning btn-lg mr-2"
+            href="{% url 'company_app:edit-job-post' job.slug %}"
+            ><b>Edit Job Post</b></a
+          >
+          <!-- <a
+            class="btn btn-danger btn-lg"
+            href=""
+            ><b>Search Relevant Candidates</b></a
+          > -->
+          <hr my-2 />
+          <span style="font-size: 18px"><b>Job Description</b></span>
+          <p style="white-space: pre-wrap; font-size: 16px">
+            {{ job.description }}
+          </p>
+          <hr my-2 />
+          <p><b class="mr-2">Skills Required:</b>{{job.skills_req}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- {% if request.user == job.company %} -->
+  <!-- {% else %} -->
+  <!-- {% endif %} -->
+  <!-- <div class="row">
+    <div class="col-sm-12 col-md-10 col-lg-8 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h3 class="text-center">You do not have access to this page!</h3>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
+</div>
+{% endblock content %}

@@ -15,21 +15,21 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'user_dashboard' %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
+                        <a href="{% url 'user_app:user_dashboard' %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
                             <i class="bi-speedometer2 fs-1"></i>
                             <br>
                             Dashboard
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'job_list' %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+                        <a href="{% url 'user_app:job_list' %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
                             <i class="bi-table fs-1"></i>
                             <br>
                             job-list
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Products">
+                        <a href="{% url 'user_app:favourites-job' %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Products">
                             <i class="bi-heart fs-1"></i>
                             <br>
                             saved jobs
@@ -48,9 +48,9 @@
                         <i class="bi-person-circle h2"></i>
                     </a>
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-                        <li><a class="dropdown-item" href="{% url 'user_profile' %}">view profile...</a></li>
-                        <li><a class="dropdown-item" href="{% url 'update_user_profile' %}">edit profile</a></li>
-                        <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user_app:user_profile' %}">view profile...</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user_app:update_user_profile' %}">edit profile</a></li>
+                        <li><a class="dropdown-item" href="">Change Password</a></li>
                     </ul>
                 </div>
                 <a class="btn bg-gradient-primary mt-3 w-100" href="">Subscribe</a>
