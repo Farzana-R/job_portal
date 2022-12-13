@@ -1,7 +1,3 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-
 from django.contrib import messages, auth
 from django.conf import settings
 from django.shortcuts import HttpResponseRedirect, render, redirect, get_object_or_404
@@ -12,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from company_app.models import Applicants, Job, Selected
-from user_app.models import AppliedJobs, UserDetails, Favourites
+from user_app.models import AppliedJobs, Skill, UserDetails, Favourites
+from celery_works.tasks import send_registration_mail
 
 from . import forms
 
@@ -36,7 +33,6 @@ def save_job(request, slug):
     job = get_object_or_404(Job, slug=slug)
     saved, created = Favourites.objects.get_or_create(job=job, user=user)
     return redirect('user_app:favourites-job')
-    # return HttpResponseRedirect('/job/{}'.format(job.slug))
 
 
 # to view saved jobs
@@ -63,59 +59,37 @@ def apply_job(request, job_id):
     # return HttpResponseRedirect('/job/{}'.format(job.slug))
 
 
-# class UserDashboard(View):
-#     def get(self, request):
-#         jobs = Job.objects.all()
-#         return render(request, 'user_app/user_dashboard.html', {'jobs' : jobs})
-
-
-
 # dashboard (view applied jobs)
 class UserDashboard(View):
 
     def get(self, request):
         jobs = AppliedJobs.objects.filter(
         user=request.user).order_by('-date_posted')
-        print(jobs)
-        print('aaaaaaaaaaaaaaaaa')
         
-        # statuses = []
-        # for job in jobs:
-        #     print(job.job)
-        #     print("bbbbbbbbbbbbbbbbbbbbbb")
-        #     if Selected.objects.filter(job=job.job).filter(applicant=request.user).exists():
-        #         statuses.append(0)
-        #     elif Applicants.objects.filter(job=job.job).filter(applicant=request.user).exists():
-        #         statuses.append(1)
-        #     else:
-        #         statuses.append(2)
-        # zipped = zip(jobs, statuses)
-        # print(zipped)
-        # print('cccccccccccccccccccc')
-        # for job in jobs:
-        #     print(job)
-        #     print(job.job.company.logo)
-        return render(request, 'user_app/user_dashboard.html', {'zipped': jobs})
+        statuses = []
+        for job in jobs:
+            if Selected.objects.filter(job=job.job).filter(applicant=request.user).exists():
+                statuses.append(0)
+            elif Applicants.objects.filter(job=job.job).filter(applicant=request.user).exists():
+                statuses.append(1)
+            else:
+                statuses.append(2)
+        zipped = zip(jobs, statuses)
+        return render(request, 'user_app/user_dashboard.html', {'zipped': zipped})
 
 
-
-
-# view applied jobs
-# @login_required
-# def applied_jobs(request):
-#     jobs = AppliedJobs.objects.filter(
-#         user=request.user).order_by('-date_posted')
-#     statuses = []
-#     for job in jobs:
-#         if Selected.objects.filter(job=job.job).filter(applicant=request.user).exists():
-#             statuses.append(0)
-#         elif Applicants.objects.filter(job=job.job).filter(applicant=request.user).exists():
-#             statuses.append(1)
-#         else:
-#             statuses.append(2)
-#     zipped = zip(jobs, statuses)
-#     return render(request, 'user_app/user_dashboard.html', {'zipped': zipped})
-#     # return render(request, 'user_app/applied_jobs.html', {'zipped': zipped, 'candidate_navbar': 1})
+# view profile for companies
+@login_required
+def profile_view(request, slug):
+    profile = UserDetails.objects.filter(slug=slug).first()
+    you = profile.user
+    user_skills = Skill.objects.filter(user=you)
+    context = {
+        'you': you,
+        'profile': profile,
+        'skills': user_skills,
+    }
+    return render(request, 'user_app/profile.html', context)
 
 
 # view profile
@@ -126,21 +100,6 @@ class UserProfile(View):
         print(user_details.image)
         return render(request, 'user_app/view_user_profile.html', {'user_details': user_details})
 
-
-# @method_decorator(login_required, name='get')
-# class UpdateUserProfile(View):
-#     def get(self, request):
-#         form = forms.UserUpdateProfileForm()
-#         return render(request, 'user_app/edit_profile.html', {'form': form})
-
-#     def post(self, request):
-#         profile = UserDetails.objects.filter(user=request.user).first()
-#         form = forms.UserUpdateProfileForm(request.POST, request.FILES, instance=profile)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('user_profile')
-#         else:
-#             return render(request, 'user_app/edit_profile.html', {'form': form})
 
 # edit profile
 @method_decorator(login_required, name='get')
@@ -154,9 +113,6 @@ class UpdateUserProfile(View):
         form = forms.UserUpdateProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            #return render(request, 'user_app/edit_profile.html', {'form': form})
-            return render(request, 'user_app/view_user_profile.html', {'user_details': profile})
-            return redirect('user_profile')
             return redirect('user_app:user_profile')
         else:
             return render(request, 'user_app/edit_profile.html', {'form': form})
@@ -174,11 +130,9 @@ class UserRegister(View):
         user_form = forms.UserRegisterForm(request.POST)
         if user_form.is_valid():
             user_form.save()
-            # Sending  mail to registered user
-            email=user_form.cleaned_data['email']             
-            send_mail('HI WELCOME ...',
-                'Hi welcome to JOBRIAL',
-                settings.EMAIL_HOST_USER, [email], fail_silently=False)
+            # Sending  mail to registered user using celery tasks
+            email=user_form.cleaned_data['email']   
+            send_registration_mail.delay(email)          
             return redirect('user_app:login')
 
         context = {'form' : user_form}

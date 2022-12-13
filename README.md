@@ -36,3 +36,32 @@ Chat Creation
         * configure channels in settings.py file
 
 
+Celery Integration
+
+    - install celery
+
+    - create celery.py file in project folder
+
+    - import above app in your __init__.py module
+
+    - edit in settings file
+
+    - create new app and add tasks.py file
+
+    - starting celery worker 
+        celery -A job_portal_project worker -l INFO
+
+
+Celery Integration
+
+    - Install celery_beat, add in installed apps
+
+    - migrate project 
+
+    - update in celery file for celery beat
+
+    - starting celery beat
+        celery -A job_portal_project beat -l INFO 
+       
+
+

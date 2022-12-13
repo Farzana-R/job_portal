@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+# from autoslug import AutoSlugField
+
 # Create your models here.
 
 class Company(models.Model):
@@ -22,14 +24,28 @@ class Company(models.Model):
         return '{}'.format(self.user)
 
 
+CHOICES = (
+    ('Full Time', 'Full Time'),
+    ('Part Time', 'Part Time'),
+    ('Internship', 'Internship'),
+    ('Remote', 'Remote'),
+)
+
     
 class Job(models.Model):
     job_name = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250, unique=True)
-    description = models.TextField(blank=True)
+    # slug = AutoSlugField(populate_from='job_name', unique=True, null=True, blank=True)
+    slug = models.SlugField(max_length=250, null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    area_of_job = models.CharField(max_length=250)
+    location = models.CharField(max_length=255, blank=True, null=True)
+    skills_req = models.CharField(max_length=200, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    requirements = models.TextField(blank=True, null=True)
+    benifits = models.TextField(blank=True, null=True)
+    job_type = models.CharField(
+        max_length=30, choices=CHOICES, default='Full Time', null=True, blank=True)
     posting_date = models.DateTimeField(auto_now_add=True)
+    area_of_job = models.CharField(max_length=250)
     
     class Meta:
         ordering = ('job_name',)

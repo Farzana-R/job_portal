@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'user_app',
     'frontend',
     'chat',
+    'celery_works',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -165,10 +167,25 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# #Needed for sending email
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
+# EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
+# EMAIL_FROM = 'farzana.r@techversantinfo.com'
+
 #Needed for sending email
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
-EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
-EMAIL_FROM = 'farzana.r@techversantinfo.com'
+EMAIL_HOST_USER = 'vishnu.ks@techversantinfo.com'
+EMAIL_HOST_PASSWORD = 'lelffhsdvsmxqzfh'
+EMAIL_FROM = 'vishnu.ks@techversantinfo.com'
+
+# CELERY SETTINGS
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SELERLIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
