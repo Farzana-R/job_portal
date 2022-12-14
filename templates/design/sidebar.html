@@ -53,6 +53,10 @@
                         <li><a class="dropdown-item" href="">Change Password</a></li>
                     </ul>
                 </div>
-                <a class="btn bg-gradient-primary mt-3 w-100" href="">Subscribe</a>
+                {% if user.customer.membership == True %}
+                <a class="btn bg-gradient-primary mt-3 w-100" href="">Subscription details</a>
+                {% else %}
+                <a class="btn bg-gradient-primary mt-3 w-100" href="{% url 'subscription:join' %}">Subscribe</a>
+                {% endif %}
             </div>
         </div>

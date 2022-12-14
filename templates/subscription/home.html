@@ -1,0 +1,158 @@
+{% extends 'design/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="col-sm p-3 min-vh-100">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar Start -->
+      {% include 'design/sidebar.html'%}
+      <!-- Sidebar End -->
+
+    </div>                   
+  </div>
+  </div>
+
+
+<div class="container mt-5">
+
+
+    {% if user.customer.membership == True %}
+    <h4>Your subscription:</h4>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <p class="card-text">
+          {{ product.description }}
+        </p>
+      </div>
+    </div>
+      <br>
+
+
+            {% if user.customer.cancel_at_period_end == True %}
+
+                Your subscription is canceled<br>
+                Your subscription will run to the end of your billing cycle.
+                <br><br>
+                <a href="{% url 'subscription:join' %}">Get new subscription</a>
+
+
+            {% elif user.customer.status == 'active' %}
+                <div class="container">
+                    <a href="{% url 'subscription:pausesubscription' %}">Pause Subscription</a>
+                </div>
+                <br>
+                <div class="container">
+                    <a href="{% url 'subscription:updateplan' %}">Update Subscription</a>
+                </div>
+                <br>
+                <br>
+                <form action="{% url 'subscription:settings' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Cancel Membership?">
+                </form>
+
+            {% elif user.customer.status == 'pause' %}
+            <div class="container">
+                <a href="{% url 'subscription:resumesubscription' %}">Resume Subscription</a>
+            </div>
+            <br>
+            <div class="container">
+                <a href="{% url 'subscription:updateplan' %}">Update Subscription</a>
+            </div>
+            <br>
+            <form action="{% url 'subscription_app:settings' %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Cancel Membership?">
+            </form>
+
+
+            {% else %}
+
+            <div class="container">
+                <a href="{% url 'subscription:pausesubscription' %}">Pause Subscription</a>
+            </div>
+            <br>
+            <div class="container">
+                <a href="{% url 'subscription:resumesubscription' %}">Resume Subscription</a>
+            </div>
+            <br>
+            <div class="container">
+                <a href="{% url 'subscription:updateplan' %}">Update Subscription</a>
+            </div>
+            <br>
+            <br>
+            <form action="{% url 'subscription:settings' %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Cancel Membership?">
+            </form>
+
+            {% endif %}
+              </div>
+  {% else %}
+  <!-- <a href="{% url 'subscription:join' %}">Get a Subscription</a> -->
+
+
+
+
+
+
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Your Plans</h1>
+  </div>
+  
+  <div class="container">
+    <div class="card-deck mb-3 text-center">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Daily</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">Rs. 5 <small class="text-muted">/ Day</small></h1>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Premium Access</li>
+          </ul>
+          <a href="{% url 'subscription:checkout' %}?membership=daily"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Get started</button></a>
+        </div>
+      </div>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">monthly<small class="text-primary">  Save Rs.100 !</small></h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">Rs 50 <small class="text-muted">/ month</small></h1>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Premium Access</li>
+          </ul>
+          <a href="{% url 'subscription:checkout' %}?membership=monthly"><button type="button" class="btn btn-lg btn-block btn-primary">Get started</button></a>
+        </div>
+        <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">yearly<small class="text-primary">  Save Rs.100 !</small></h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">Rs 500 <small class="text-muted">/ year</small></h1>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Premium Access</li>
+          </ul>
+          <a href="{% url 'subscription:checkout' %}?membership=yearly"><button type="button" class="btn btn-lg btn-block btn-primary">Get started</button></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  
+
+  {% endif %}
+
+
+
+
+<!-- </div> -->
+
+{% endblock %}

@@ -160,3 +160,13 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
 EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
 EMAIL_FROM = 'farzana.r@techversantinfo.com'
+
+
+# stripe
+if DEBUG:
+    STRIPE_PUBLISHABLE_KEY = 'pk_test_51ME3s8SDMbDGBwOWvbp7KPYJ77rriVcFp8Evz0AcU1usLI2XlPbf6RPmiSB9PvgSN3QVs1Qo3Cfj53rtTmeQxW2C00qcBGhZPn'
+    STRIPE_SECRET_KEY = 'sk_test_51ME3s8SDMbDGBwOW82nBLmbxvrZXsAror2zx8x1dWUvlbni89wc4yPhbPT1KExN20PgAR8fAnOHtFDwK99Put2TL00xXFhOSkX'
+# Uncomment these lines if you have a live keys
+# else:
+#     STRIPE_PUBLISHABLE_KEY = 'production_publishable_key'
+#     STRIPE_SECRET_KEY = 'production_secret_key'
