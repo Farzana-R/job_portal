@@ -204,3 +204,9 @@ class Login(View):
                 login(request, user)
                 return redirect('company_app:company_home')
         return render(request, 'company_app/login.html', context)
+
+
+class ChatRoom(View):
+    def get(self, request, room_name):
+        context={'room_name': room_name}
+        return render(request, 'company_app/chat_room.html', context)

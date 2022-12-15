@@ -11,7 +11,9 @@
                 <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center">
                     <li class="nav-item">
                         <a href="/" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
-                            <i class="bi-house fs-1"></i><br>
+                            <i class="bi-house fs-1"></i>
+                            <br>
+                            Home
                         </a>
                     </li>
                     <li>
@@ -36,10 +38,17 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+                        <a href="{% url 'chat_app:room' %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
                             <i class="bi-people fs-1"></i>
                             <br>
                             chat
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'chat_app:chat_room' request.user %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+                            <i class="bi bi-chat fs-1"></i>
+                            <br>
+                            messages
                         </a>
                     </li>
                 </ul>

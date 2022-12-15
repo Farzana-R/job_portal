@@ -23,6 +23,7 @@ urlpatterns = [
          views.select_applicant, name='select-applicant'),
     path('remove-applicant/<job_id>/<can_id>/',
          views.remove_applicant, name='remove_applicant'),
+    path("<str:room_name>/", views.ChatRoom.as_view(), name="company_chat_room"),
 ]
 
 

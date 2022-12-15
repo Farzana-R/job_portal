@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 
 from company_app.models import Applicants, Job, Selected
 from user_app.models import AppliedJobs, Skill, UserDetails, Favourites
+from celery_works.tasks import send_registration_mail
 
 from . import forms
 
@@ -129,11 +130,9 @@ class UserRegister(View):
         user_form = forms.UserRegisterForm(request.POST)
         if user_form.is_valid():
             user_form.save()
-            # Sending  mail to registered user
-            email=user_form.cleaned_data['email']             
-            send_mail('HI WELCOME ...',
-                'Hi welcome to JOBRIAL',
-                settings.EMAIL_HOST_USER, [email], fail_silently=False)
+            # Sending  mail to registered user using celery tasks
+            email=user_form.cleaned_data['email']   
+            send_registration_mail.delay(email)          
             return redirect('user_app:login')
 
         context = {'form' : user_form}

@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,6 +49,9 @@ INSTALLED_APPS = [
     'company_app',
     'user_app',
     'frontend',
+    'chat',
+    'celery_works',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -79,6 +83,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'job_portal_project.wsgi.application'
+ASGI_APPLICATION = 'job_portal_project.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 # Database
@@ -153,10 +167,25 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# #Needed for sending email
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
+# EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
+# EMAIL_FROM = 'farzana.r@techversantinfo.com'
+
 #Needed for sending email
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
-EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
-EMAIL_FROM = 'farzana.r@techversantinfo.com'
+EMAIL_HOST_USER = 'vishnu.ks@techversantinfo.com'
+EMAIL_HOST_PASSWORD = 'lelffhsdvsmxqzfh'
+EMAIL_FROM = 'vishnu.ks@techversantinfo.com'
+
+# CELERY SETTINGS
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SELERLIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'

@@ -32,6 +32,7 @@
                 <div class="dropdown-menu rounded-0 m-0">
                     <a href="{% url 'company_app:company_profile' %}" class="dropdown-item">view profile</a>
                     <a href="{% url 'company_app:update_company_profile' %}" class="dropdown-item">edit profile</a>
+                    <a href="{% url 'company_app:company_chat_room' request.user %}" class="dropdown-item">messages</a>
                     <a href="" class="dropdown-item">change password</a>
                 </div>
             </div>
