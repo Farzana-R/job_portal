@@ -41,7 +41,7 @@ def settings(request):
         except Customer.DoesNotExist:
             membership = False
 
-    return render(request, 'membership/home.html',
+    return render(request, 'subscription/home.html',
                   {'membership': membership,
                    'cancel_at_period_end': cancel_at_period_end})
 
@@ -58,10 +58,11 @@ def updateaccounts(request):
             customer.membership = True
         customer.cancel_at_period_end = subscription.cancel_at_period_end
         customer.save()
-    return render(request, 'home.html', {'customers': customers})
+    return render(request, 'subscription/home.html', {'customers': customers})
 
 
 def join(request):
+    print(request.user.customer.stripe_subscription_id)
     return render(request, 'subscription/home.html')
 
 
@@ -80,11 +81,11 @@ def success(request):
         subscription = stripe.Subscription.retrieve(
             customer.stripe_subscription_id)
         product = stripe.Product.retrieve(subscription.plan.product)
-    return render(request, 'membership/home.html', {'subscription': subscription, 'product': product})
+    return render(request, 'subscription/home.html', {'subscription': subscription, 'product': product})
 
 
 def cancel(request):
-    return render(request, 'membership/cancel.html')
+    return render(request, 'subscription/cancel.html')
 
 
 @login_required
@@ -122,7 +123,7 @@ def checkout(request):
             }],
             mode='subscription',
             allow_promotion_codes=True,
-            success_url='http://127.0.0.1:8000/subscription_appsuccess?session_id={CHECKOUT_SESSION_ID}',
+            success_url='http://127.0.0.1:8000/subscription/success?session_id={CHECKOUT_SESSION_ID}',
             cancel_url='http://127.0.0.1:8000/cancel',
         )
 
@@ -131,6 +132,7 @@ def checkout(request):
 
 
 def pausesubscription(request):
+    print(request.user.customer.stripe_subscription_id)
     cid = stripe.Subscription.retrieve(
         request.user.customer.stripe_subscription_id),
     stripe.Subscription.modify(
@@ -140,7 +142,7 @@ def pausesubscription(request):
         },
     )
     Customer.status = 'pause'
-    return render(request, 'membership/home.html')
+    return render(request, 'subscription/home.html')
 
 
 def resumesubscription(request):
@@ -151,7 +153,7 @@ def resumesubscription(request):
         pause_collection='',
     )
     Customer.status = 'active'
-    return render(request, 'membership/home.html')
+    return render(request, 'subscription/home.html')
 
 
 def updatesubscription(request):
@@ -171,7 +173,7 @@ def updatesubscription(request):
             ]
         )
 
-        return render(request, 'membership/home.html')
+        return render(request, 'subscription/home.html')
 
 def Deletesubscription(request):
     stripe.Subscription.delete(stripe.Subscription.retrieve(request.user.customer.stripe_subscription_id)),

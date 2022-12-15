@@ -6,13 +6,12 @@
 <div class="col-sm p-3 min-vh-100">
   <div class="container-fluid">
     <div class="row">
+
       <!-- Sidebar Start -->
       {% include 'design/sidebar.html'%}
       <!-- Sidebar End -->
 
-    </div>                   
-  </div>
-  </div>
+      <div class="col"> 
 
 
 <div class="container mt-5">
@@ -63,7 +62,7 @@
                 <a href="{% url 'subscription:updateplan' %}">Update Subscription</a>
             </div>
             <br>
-            <form action="{% url 'subscription_app:settings' %}" method="POST">
+            <form action="{% url 'subscription:settings' %}" method="POST">
                 {% csrf_token %}
                 <input type="submit" value="Cancel Membership?">
             </form>
@@ -101,7 +100,7 @@
 
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Your Plans</h1>
+    <h1 class="display-4">Your Plans</h1> 
   </div>
   
   <div class="container">
@@ -149,6 +148,11 @@
   
 
   {% endif %}
+
+</div>  
+</div>                   
+</div>
+</div>
 
 
 

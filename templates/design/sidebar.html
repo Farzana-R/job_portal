@@ -42,6 +42,13 @@
                             chat
                         </a>
                     </li>
+                    <li>
+                        <a href="{% url 'subscription:join' %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+                            <i class="bi bi-credit-card-2-back-fill fs-1"></i>
+                            <br>
+                            subscribe
+                        </a>
+                    </li>
                 </ul>
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,10 +60,10 @@
                         <li><a class="dropdown-item" href="">Change Password</a></li>
                     </ul>
                 </div>
-                {% if user.customer.membership == True %}
-                <a class="btn bg-gradient-primary mt-3 w-100" href="">Subscription details</a>
+                <!-- {% if user.customer.membership == True %}
+                <a class="btn bg-gradient-primary mt-3 w-100" href="{% url 'subscription:join' %}">Subscription details</a>
                 {% else %}
                 <a class="btn bg-gradient-primary mt-3 w-100" href="{% url 'subscription:join' %}">Subscribe</a>
-                {% endif %}
+                {% endif %} -->
             </div>
         </div>
