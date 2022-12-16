@@ -14,93 +14,8 @@
       <div class="col"> 
 
 
-<div class="container mt-5">
-
-
-    {% if user.customer.membership == True %}
-    <h4>Your subscription:</h4>
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">{{ product.name }}</h5>
-        <p class="card-text">
-          {{ product.description }}
-        </p>
-      </div>
-    </div>
-      <br>
-
-
-            {% if user.customer.cancel_at_period_end == True %}
-
-                Your subscription is canceled<br>
-                Your subscription will run to the end of your billing cycle.
-                <br><br>
-                <a href="{% url 'subscription:join' %}">Get new subscription</a>
-
-
-            {% elif user.customer.status == 'active' %}
-                <div class="container">
-                    <a href="{% url 'subscription:pausesubscription' %}">Pause Subscription</a>
-                </div>
-                <br>
-                <div class="container">
-                    <a href="{% url 'subscription:updateplan' %}">Update Subscription</a>
-                </div>
-                <br>
-                <br>
-                <form action="{% url 'subscription:settings' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Cancel Membership?">
-                </form>
-
-            {% elif user.customer.status == 'pause' %}
-            <div class="container">
-                <a href="{% url 'subscription:resumesubscription' %}">Resume Subscription</a>
-            </div>
-            <br>
-            <div class="container">
-                <a href="{% url 'subscription:updateplan' %}">Update Subscription</a>
-            </div>
-            <br>
-            <form action="{% url 'subscription:settings' %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Cancel Membership?">
-            </form>
-
-
-            {% else %}
-
-            <div class="container">
-                <a href="{% url 'subscription:pausesubscription' %}">Pause Subscription</a>
-            </div>
-            <br>
-            <div class="container">
-                <a href="{% url 'subscription:resumesubscription' %}">Resume Subscription</a>
-            </div>
-            <br>
-            <div class="container">
-                <a href="{% url 'subscription:updateplan' %}">Update Subscription</a>
-            </div>
-            <br>
-            <br>
-            <form action="{% url 'subscription:settings' %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Cancel Membership?">
-            </form>
-
-            {% endif %}
-              </div>
-  {% else %}
-  <!-- <a href="{% url 'subscription:join' %}">Get a Subscription</a> -->
-
-
-
-
-
-
-
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Your Plans</h1> 
+    <h1 class="display-4">Select Your Plans</h1> 
   </div>
   
   <div class="container">
@@ -147,16 +62,11 @@
 
   
 
-  {% endif %}
-
 </div>  
 </div>                   
 </div>
 </div>
 
 
-
-
-<!-- </div> -->
 
 {% endblock %}

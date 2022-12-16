@@ -43,11 +43,19 @@
                         </a>
                     </li>
                     <li>
+                        {% if user.customer.membership == True %}
+                        <a href="{% url 'subscription:premium' %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+                            <i class="bi bi-credit-card-2-back-fill fs-1"></i>
+                            <br>
+                            subscribe
+                        </a>
+                        {% else %}
                         <a href="{% url 'subscription:join' %}" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
                             <i class="bi bi-credit-card-2-back-fill fs-1"></i>
                             <br>
                             subscribe
                         </a>
+                        {% endif %}
                     </li>
                 </ul>
                 <div class="dropdown">

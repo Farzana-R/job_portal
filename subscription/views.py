@@ -9,12 +9,10 @@ from . models import Customer, CustomerStatus
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-def special(request):
-    return render(request, 'membership/specials.html')
 
 
-# def premium(request):
-#     return render(request, 'membership/premium.html')
+def premium(request):
+    return render(request, 'subscription/premium.html')
 
 
 @login_required
@@ -41,7 +39,7 @@ def settings(request):
         except Customer.DoesNotExist:
             membership = False
 
-    return render(request, 'subscription/home.html',
+    return render(request, 'subscription/premium.html',
                   {'membership': membership,
                    'cancel_at_period_end': cancel_at_period_end})
 
@@ -58,11 +56,10 @@ def updateaccounts(request):
             customer.membership = True
         customer.cancel_at_period_end = subscription.cancel_at_period_end
         customer.save()
-    return render(request, 'subscription/home.html', {'customers': customers})
+    return render(request, 'subscription/premium.html', {'customers': customers})
 
 
 def join(request):
-    print(request.user.customer.stripe_subscription_id)
     return render(request, 'subscription/home.html')
 
 
@@ -81,7 +78,7 @@ def success(request):
         subscription = stripe.Subscription.retrieve(
             customer.stripe_subscription_id)
         product = stripe.Product.retrieve(subscription.plan.product)
-    return render(request, 'subscription/home.html', {'subscription': subscription, 'product': product})
+    return render(request, 'subscription/premium.html', {'subscription': subscription, 'product': product})
 
 
 def cancel(request):
@@ -90,6 +87,7 @@ def cancel(request):
 
 @login_required
 def checkout(request):
+    print(request.user.customer.membership)
     try:
         if request.user.customer.membership:
             return redirect('subscription:settings')
@@ -142,7 +140,7 @@ def pausesubscription(request):
         },
     )
     Customer.status = 'pause'
-    return render(request, 'subscription/home.html')
+    return render(request, 'subscription/premium.html')
 
 
 def resumesubscription(request):
@@ -153,7 +151,7 @@ def resumesubscription(request):
         pause_collection='',
     )
     Customer.status = 'active'
-    return render(request, 'subscription/home.html')
+    return render(request, 'subscription/premium.html')
 
 
 def updatesubscription(request):
@@ -173,11 +171,5 @@ def updatesubscription(request):
             ]
         )
 
-        return render(request, 'subscription/home.html')
+        return render(request, 'subscription/premium.html')
 
-def Deletesubscription(request):
-    stripe.Subscription.delete(stripe.Subscription.retrieve(request.user.customer.stripe_subscription_id)),
-    Customer.objects.get(user=request.user).delete()
-    Customer.objects.create(user=request.user)
-
-    return redirect('/deletemsg')
