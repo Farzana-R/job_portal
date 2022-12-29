@@ -37,16 +37,20 @@
                     {% endif %}
                   <h5 class="my-3">{{user.first_name}} {{user.last_name}}</h5>
                   <p class="text-muted mb-1">{{user_details.description}}</p>
-                  <p class="text-muted mb-4">{{user_details.address}}</p>
+                  <p class="text-muted mb-4">Looking for :--> {{user_details.looking_for}} Job</p>
+                  <p class="text-muted mb-1">Graduated in : {{user_details.grad_year}}</p>
                   <div class="d-flex justify-content-center mb-2">
                     <!-- <button type="button" class="btn btn-primary">Follow</button> -->
-                    <button type="button" class="btn btn-outline-primary ms-1">Resume</button>
+                    <button type="button" class="btn btn-outline-primary ms-1">
+                      <a href="{{ user_details.resumes.url }}"></a>
+                        Resume
+                      </button>
                   </div>
                 </div>
               </div>
               <div class="card mb-4 mb-lg-0">
                 <div class="card-body p-0">
-                  <ul class="list-group list-group-flush rounded-3">
+                  <!-- <ul class="list-group list-group-flush rounded-3">
                     <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                       <i class="fas fa-globe fa-lg text-warning"></i>
                       <p class="mb-0">https://mdbootstrap.com</p>
@@ -67,13 +71,22 @@
                       <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
                       <p class="mb-0">mdbootstrap</p>
                     </li>
-                  </ul>
+                  </ul> -->
                 </div>
               </div>
             </div>
             <div class="col-lg-8">
               <div class="card mb-4">
                 <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Username</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{user.username}}</p>
+                    </div>
+                  </div>
+                  <hr>
                   <div class="row">
                     <div class="col-sm-3">
                       <p class="mb-0">Full Name</p>
@@ -94,6 +107,15 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
+                      <p class="mb-0">Date of birth</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{user_details.date_of_birth}} </p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
                       <p class="mb-0">Phone</p>
                     </div>
                     <div class="col-sm-9">
@@ -101,15 +123,7 @@
                     </div>
                   </div>
                   <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <p class="mb-0">Gender</p>
-                    </div>
-                    <div class="col-sm-9">
-                      <p class="text-muted mb-0"></p>
-                    </div>
-                  </div>
-                  <hr>
+              
                   <div class="row">
                     <div class="col-sm-3">
                       <p class="mb-0">Address</p>
@@ -118,6 +132,27 @@
                       <p class="text-muted mb-0">{{user_details.address}} </p>
                     </div>
                   </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">location</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{user_details.location}} </p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">country</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{user_details.country}} </p>
+                    </div>
+                  </div>
+                  <hr>
+
+
                 </div>
               </div>
                 

@@ -45,14 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'haystack',
     'admin_app',
     'company_app',
     'user_app',
-    'frontend',
     'chat',
     'celery_works',
     'django_celery_beat',
+    'subscription',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,6 +65,18 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch7_backend.Elasticsearch7SearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
 
 ROOT_URLCONF = 'job_portal_project.urls'
 
@@ -179,9 +193,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'vishnu.ks@techversantinfo.com'
-EMAIL_HOST_PASSWORD = 'lelffhsdvsmxqzfh'
-EMAIL_FROM = 'vishnu.ks@techversantinfo.com'
+EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
+EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
+EMAIL_FROM = 'farzana.r@techversantinfo.com'
 
 # CELERY SETTINGS
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
@@ -189,3 +203,14 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SELERLIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Kolkata'
+
+
+
+# stripe
+if DEBUG:
+    STRIPE_PUBLISHABLE_KEY = 'pk_test_51ME3s8SDMbDGBwOWvbp7KPYJ77rriVcFp8Evz0AcU1usLI2XlPbf6RPmiSB9PvgSN3QVs1Qo3Cfj53rtTmeQxW2C00qcBGhZPn'
+    STRIPE_SECRET_KEY = 'sk_test_51ME3s8SDMbDGBwOW82nBLmbxvrZXsAror2zx8x1dWUvlbni89wc4yPhbPT1KExN20PgAR8fAnOHtFDwK99Put2TL00xXFhOSkX'
+# Uncomment these lines if you have a live keys
+# else:
+#     STRIPE_PUBLISHABLE_KEY = 'production_publishable_key'
+#     STRIPE_SECRET_KEY = 'production_secret_key'

@@ -1,4 +1,5 @@
 from django.contrib import messages, auth
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.shortcuts import HttpResponseRedirect, render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
@@ -96,26 +97,40 @@ def profile_view(request, slug):
 @method_decorator(login_required, name='get')
 class UserProfile(View):
     def get(self, request):
+        user_base_details = User.objects.get(username=request.user.username)
         user_details = UserDetails.objects.get(user=request.user)
-        print(user_details.image)
-        return render(request, 'user_app/view_user_profile.html', {'user_details': user_details})
+        return render(request, 'user_app/view_user_profile.html', {'user_details': user_details, 'user' : user_base_details})
 
 
 # edit profile
 @method_decorator(login_required, name='get')
 class UpdateUserProfile(View):
     def get(self, request):
-        form = forms.UserUpdateProfileForm()
-        return render(request, 'user_app/edit_profile.html', {'form': form})
+        # profile = UserDetails.objects.filter(user=request.user)
+        form1 = forms.UpdateProfileForm(instance=request.user)
+        form2 = forms.UserUpdateProfileForm(instance=request.user.userdetails)
+        return render(request, 'user_app/edit_profile.html', \
+             {'user' : form1 ,'user_details': form2})
 
     def post(self, request):
+
+        # base = request.user
         profile = UserDetails.objects.filter(user=request.user).first()
+        base_form = forms.UpdateProfileForm(request.POST, instance=request.user)
         form = forms.UserUpdateProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
+        if base_form.is_valid() and form.is_valid():
             form.save()
+            base_form.save()
+            messages.success(request, 'Your profile is updated successfully')
             return redirect('user_app:user_profile')
         else:
-            return render(request, 'user_app/edit_profile.html', {'form': form})
+            return render(request, 'user_app/edit_profile.html', \
+                {'base_form' : base_form, 'form': form})
+        # if form.is_valid():
+        #     form.save()
+        #     return redirect('user_app:user_profile')
+        # else:
+        #     return render(request, 'user_app/edit_profile.html', {'form': form})
 
 
 

@@ -14,15 +14,6 @@ class NewJobForm(forms.ModelForm):
                   'description','requirements', 'benifits',
                   'job_type', 'location', 'skills_req']
 
-    # def save(self):
-    #     user = super().save(commit=False)
-    #     print(user.job_name)
-    #     print(user.area_of_job)
-    #     Job.objects.create(
-    #         job_name=user.job_name,
-    #     slug = user.job_name+str(user.id)).save()               
-    #     return user
-
 
 
 class JobUpdateForm(forms.ModelForm):
