@@ -66,7 +66,7 @@ Celery Integration
 
 Haystack
     - with elastic search
-    
+    -create search_index.py file
        
 
 
