@@ -20,11 +20,6 @@ class UpdateProfileForm(forms.ModelForm):
         # def get_object(self):
         #     return self.request.user
 
-        
-
-    
-
-
 
 class UserUpdateProfileForm(forms.ModelForm):   
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'})) 
