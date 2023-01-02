@@ -1,0 +1,44 @@
+
+{% extends 'design/base.html'%} 
+{% load static %} 
+{% block content %}
+
+{% include 'design/navbar.html'%}
+<!-- navbar End -->
+
+<div class="container-fluid bg-3 text-center">  
+  <form method="get" action="." class="form" role="form">
+    <div class="form-group">
+      {{ form.as_p }}
+    </div>
+    <div class="form-group">
+      <input type="submit" class="btn btn-primary" value="Search">
+    </div>
+    {% if query %}
+    <h3>Results</h3>
+    <div class="container-fluid bg-4 text-left">    
+      <div class="row">
+        {% for result in page.object_list %}
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">                       
+              <p class="card-text">Job Name : {{result.job_name}}</p>
+              <p class="card-text">Location : {{result.location}} </p>
+              <a href="{% url 'user_app:job_detail' result.id %}">View More</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p style="text-center">No results found.</p>
+        {% endfor%}
+      </div>
+    </div>   
+    {% endif %}
+  </form>
+</div>
+
+<!-- Footer Start -->
+{% include 'design/footer.html'%}
+<!-- Footer End -->
+
+{% endblock %}

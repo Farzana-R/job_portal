@@ -65,3 +65,18 @@ Celery Integration
        
 
 
+Haystack Integration
+
+    - install django haystack, addd 'haysstack' in installed apps 
+
+    - create app add to installed apps
+
+    - define elasticsearch as back-end in settings.py file
+
+    - create search indexes file inside app
+
+    - create the template inside search/indexes/
+
+    - Add the haystack urls to your URLconf
+
+    - create search template, In templates/search.html

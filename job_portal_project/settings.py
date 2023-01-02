@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'chat',
     'celery_works',
     'django_celery_beat',
+    'haystack',
+    'haystack_app',
 ]
 
 MIDDLEWARE = [
@@ -189,3 +191,15 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SELERLIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Kolkata'
+
+
+# HAYSTACK SETTINGS
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'H_ENGINE' :'haystack.backends.elasticsearch5_backend.Elasticsearch5SearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'  
