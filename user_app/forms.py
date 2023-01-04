@@ -4,16 +4,35 @@ from django.contrib.auth.models import User
 
 from . models import UserDetails
 
+class UpdateProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
+        # def get_object(self):
+        #     return self.request.user
+
 
 class UserUpdateProfileForm(forms.ModelForm):   
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'})) 
     class Meta:
         model = UserDetails
-        fields = ['first_name','address', 'date_of_birth', 'phone_number', 'image',\
-            'description']
+        fields = ['address', 'location', 'country', 'date_of_birth', \
+            'phone_number', 'image', 'description', 'resume',\
+                'grad_year', 'looking_for']
 
         widgets = {
             'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'}),
             'date_of_birth': forms.DateInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             # 'image': forms.ImageField(attrs={'class': 'form-control'}),

@@ -62,6 +62,11 @@ Celery Integration
 
     - starting celery beat
         celery -A job_portal_project beat -l INFO 
+
+
+Haystack
+    - with elastic search
+    -create search_index.py file
        
 
 

@@ -27,5 +27,6 @@ urlpatterns = [
     path('company_app/', include('company_app.urls')),
     path('chat/', include('chat.urls')),
     path('search/', include('haystack_app.urls')),
+    path('subscription/', include('subscription.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #For serving uploaded files

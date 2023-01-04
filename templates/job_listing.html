@@ -11,7 +11,7 @@
                     <div class="job-item p-4 mb-4">
                         <div class="row g-4">
                             <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid border rounded" src='' alt="" style="width: 80px; height: 80px;">
+                                <img class="flex-shrink-0 img-fluid border rounded" src={{job.company.logo.url}} alt="" style="width: 80px; height: 80px;">
                                 <div class="text-start ps-4">
                                     <h5 class="mb-3">{{job.job_name}}</h5>
                                     <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>New York, USA</span>
@@ -23,7 +23,7 @@
                             <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                 <div class="d-flex mb-3">
                                 {% if user.is_authenticated %}
-                                 <a class="btn btn-light btn-square me-3" href="#"><i class="far fa-heart text-primary"></i></a>
+                                 <a class="btn btn-light btn-square me-3" href="{% url 'user_app:save-job' job.slug %}"><i class="far fa-heart text-primary"></i></a>
                                  <a class="btn btn-primary" href="{% url 'user_app:job_detail' job.id %}">Apply Now</a>
                                  {% else %}
                                  <a class="btn btn-light btn-square me-3" href="{% url 'user_app:login' %}"><i class="far fa-heart text-primary"></i></a>

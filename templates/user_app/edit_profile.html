@@ -42,6 +42,16 @@
 <form action="" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
 
+  {% for field in base_form %}
+      <div>
+          <p>{{ field.label }}: <br> {{ field }}</p> 
+
+          {% for error in field.errors %}
+              <small style="color: red">{{ error }}</small>
+          {% endfor %}
+      </div>
+  {% endfor %}
+
   {% for field in form %}
       <div>
           <p>{{ field.label }}: <br> {{ field }}</p> 
