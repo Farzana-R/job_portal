@@ -3,54 +3,49 @@
 {% block content %} 
 
 <!-- Spinner Start -->
-    {% include 'design/spinner.html'%}
+{% include 'design/spinner.html'%}
 <!-- Spinner End -->
 
 <!-- navbar Start -->
-    {% include 'design/login_navbar.html'%}
+{% include 'design/login_navbar.html'%}
 <!-- navbar End --> 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      
-      <div class="collapse navbar-collapse" id="navbarText">
-        
-        <span class="navbar-text" style="padding-left: 35%;">
-            
-         <h1>Company Login Page</h1>
-        </span>
-      </div>
+  <div class="container-fluid">      
+    <div class="collapse navbar-collapse" id="navbarText">       
+      <span class="navbar-text" style="padding-left: 35%;">          
+        <h1>Company Login Page</h1>
+      </span>
     </div>
-  </nav>
+  </div>
+</nav>
 
 <div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-    <br><br>
-    
-    <div class="d-flex justify-content-center">
-        <form action="" method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-                <p>{{ field.label }}: <br> {{ field }}</p>
-            {% endfor %}
-            <button type="submit">Login</button>
-        </form>
-    </div>
-    <br><br>
-</div>
+  <div class="row">
     <div class="col-sm-6">
-        <br><br><br><br>
-        <p>Don't have an account? <a href="{% url 'company_app:company_register' %}">Signup here</a></p>
-    
-    
+      <br><br>   
+      <div class="d-flex justify-content-center">
+        <form action="" method="POST">
+          {% csrf_token %}
+          {% for field in form %}
+            <p>{{ field.label }}: <br> {{ field }}</p>
+          {% endfor %}
+          <a class="ml-5 float-right" href="      ">Forgot password?</a>
+          <br>
+          <button type="submit" class="btn btn-primary py-2 px-4 ">Login</button>
+        </form>
+      </div>
+      <br><br>
+    </div>
+    <div class="col-sm-6">
+      <br><br><br><br>
+      <p>New to Jobrial? <a href="{% url 'company_app:company_register' %}">Join now</a></p>     
+    </div>
+  </div>
 </div>
-</div>
-</div>
-
 
 <!-- Footer Start -->
-    {% include 'design/footer.html'%}
+{% include 'design/footer.html'%}
 <!-- Footer End -->
 
 {% endblock %}  
