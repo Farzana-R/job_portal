@@ -14,9 +14,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 
 from pathlib import Path
+from dotenv import load_dotenv
 
-
-
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z+c0xicve51iv-kf2k80=#%3qydzt61@q5&m9$#1_v5w^xu-m^'
+SECRET_KEY= os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'haystack',
     'admin_app',
     'company_app',
     'user_app',
@@ -67,17 +66,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch7_backend.Elasticsearch7SearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
-    },
-}
-
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 
 ROOT_URLCONF = 'job_portal_project.urls'
@@ -114,27 +102,16 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': "django.db.backends.postgresql",
-#         'NAME': os.environ.get('DB_NAME'),
-#         'USER': os.environ.get('DB_USER'),
-#         'PASSWORD': os.environ.get('DB_USER_PASSWORD'),
-#         #'HOST': os.environ.get('DB_HOST'),
-#         #'PORT': os.environ.get('DB_DB_PORT'),
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': "django.db.backends.postgresql",
-        'NAME': 'job_portal_database',
-        'USER': 'job_portal',
-        'PASSWORD': 'portal',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_USER_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_DB_PORT'),
     }
 }
-
 
 
 # Password validation
@@ -183,21 +160,13 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# #Needed for sending email
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
-# EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
-# EMAIL_FROM = 'farzana.r@techversantinfo.com'
-
 #Needed for sending email
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'farzana.r@techversantinfo.com'
-EMAIL_HOST_PASSWORD = 'vlrsjsgqelxmruzk'
-EMAIL_FROM = 'farzana.r@techversantinfo.com'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_FROM = os.getenv('EMAIL_FROM')
 
 # CELERY SETTINGS
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
@@ -209,15 +178,8 @@ CELERY_TIMEZONE = 'Asia/Kolkata'
 
 
 # stripe
-if DEBUG:
-    STRIPE_PUBLISHABLE_KEY = 'pk_test_51ME3s8SDMbDGBwOWvbp7KPYJ77rriVcFp8Evz0AcU1usLI2XlPbf6RPmiSB9PvgSN3QVs1Qo3Cfj53rtTmeQxW2C00qcBGhZPn'
-    STRIPE_SECRET_KEY = 'sk_test_51ME3s8SDMbDGBwOW82nBLmbxvrZXsAror2zx8x1dWUvlbni89wc4yPhbPT1KExN20PgAR8fAnOHtFDwK99Put2TL00xXFhOSkX'
-# Uncomment these lines if you have a live keys
-# else:
-#     STRIPE_PUBLISHABLE_KEY = 'production_publishable_key'
-#     STRIPE_SECRET_KEY = 'production_secret_key'
-
-
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 
 # HAYSTACK SETTINGS
 HAYSTACK_CONNECTIONS = {
