@@ -1,0 +1,3 @@
+{{object.job_name}}
+{{object.location}}
+{{object.skills_req}}

@@ -1,0 +1,42 @@
+{% extends 'design/base.html'%}
+{% load static %} 
+{% block content %}
+
+<!-- Spinner Start -->
+{% include 'design/spinner.html'%}
+<!-- Spinner End -->
+
+<!-- navbar Start -->
+{% include 'design/navbar.html'%}
+<!-- navbar End -->
+
+<div class="container">
+  <br/><br/>
+  <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+    Login
+  </h1>
+  <div class="d-flex justify-content-center">
+    <form action="" method="POST">
+      {% csrf_token %} 
+      {% for field in form %}
+      <p>
+        {{ field.label }}: <br />
+        {{ field }}
+      </p>
+      {% endfor %}
+      <a class="ml-5 float-left" href="{% url 'password_reset' %}">Forgot password?</a>
+      <br/>
+      <button type="submit" class="btn btn-primary py-2 px-4">Login</button>
+      <p>Don't have an account?
+        <a href="{% url 'user_register' %}">Signup here</a>
+      </p>
+    </form>
+  </div>
+  <br/><br/>
+</div>
+
+<!-- Footer Start -->
+{% include 'design/footer.html'%}
+<!-- Footer End -->
+
+{% endblock %}

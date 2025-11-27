@@ -1,0 +1,58 @@
+{% extends 'design/base.html'%}
+{% load static %}
+{% block content %} 
+
+<!-- Spinner Start -->
+{% include 'design/spinner.html'%}
+<!-- Spinner End -->
+
+<!-- navbar Start -->
+{% include 'design/navbar.html'%}
+<!-- navbar End --> 
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+      <br><br>
+      <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+        Create an Account
+      </h1>      
+      <div class="card text-center" style="width: 40rem;">
+        <div class="card-body">
+          <p class="card-text">Select below the type of account you want to create.</p>
+          <a href="{% url 'user_register' %}" class="btn btn-primary btn-lg">User</a>
+          <a href="{% url 'company_register' %}" class="btn btn-primary btn-lg">Company</a>
+        </div>
+      </div>
+      <br>
+      <div class="d-flex justify-content-center">
+        <form action="" method="POST">
+          {% csrf_token %}
+          {% for field in form %}
+          <div>
+            <p>{{ field.label }}: <br> {{ field }}</p> 
+            {% for error in field.errors %}
+            <small style="color: red">{{ error }}</small>
+            {% endfor %}
+          </div>
+          {% endfor %}
+          <small style="color: red">{{ form.error }}</small>         
+          <button type="submit" class="btn btn-primary py-2 px-4 ">
+            Register
+          </button>
+          <p>Already have an account? <a href="{% url 'login' %}">
+            Login here</a>
+          </p>
+        </form>
+      </div>         
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+</div>
+
+<!-- Footer Start -->
+{% include 'design/footer.html'%}
+<!-- Footer End -->
+
+{% endblock %}  

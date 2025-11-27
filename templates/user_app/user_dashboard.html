@@ -1,0 +1,59 @@
+{% extends 'design/base.html'%}
+{% load static %}
+{% block content %} 
+
+<!-- Spinner Start -->
+{% include 'design/spinner.html'%}
+<!-- Spinner End -->
+
+<div class="col-sm p-3 min-vh-100">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar Start -->
+      {% include 'design/sidebar.html'%}
+      <!-- Sidebar End -->
+      <div class="col">
+        <h1>Your Applied Jobs</h1>
+        <div class="container">       
+        <table class="table">
+          <thead>
+            <tr>
+              <!-- <th scope="col"></th> -->
+              <th scope="col"></th>
+              <th scope="col">company_name</th>
+              <th scope="col">job_name</th>
+              <th scope="col">location</th>
+              <th scope="col">date posted</th>
+              <th scope="col">status</th>
+              <!-- <th scope="col">Apply</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for job, status in zipped %}
+            <tr>
+              <!-- <th scope="row">1</th> -->
+              <td><img class="flex-shrink-0 img-fluid border rounded" src={{job.job.company.logo.url}} alt="" style="width: 80px; height: 80px;">
+              </td>
+              <td>{{job.job.company}}</td>
+              <td>{{job.job.job_name}}</td>
+              <td>{{job.job.company.address}}</td>
+              <td>{{job.job.posting_date}}</td>
+              {% if status == 0 %}
+              <td>SELECTED</td>
+              {% elif status == 1%}
+              <td>In Process</td>
+              {% else %}
+              <td>Rejected</td>
+              {% endif %}
+              <!-- <td><a class="btn btn-primary" href="">Apply Now</a> -->
+              
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>                   
+  </div>
+</div>
+
+{% endblock %}  

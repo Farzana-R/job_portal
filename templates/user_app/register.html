@@ -1,0 +1,64 @@
+{% extends 'design/base.html'%}
+{% load static %}
+{% block content %} 
+
+<!-- Spinner Start -->
+{% include 'design/spinner.html'%}
+<!-- Spinner End -->
+
+<!-- navbar Start -->
+{% include 'design/register_navbar.html'%}
+<!-- navbar End --> 
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">     
+    <div class="collapse navbar-collapse" id="navbarText">       
+      <span class="navbar-text" style="padding-left: 35%;">           
+        <h1>User Register Page</h1>
+      </span>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <br><br>   
+      <div class="d-flex justify-content-center">
+        <form action="" method="POST">
+          {% csrf_token %}     
+          {% for field in form %}
+          <div>
+            <p>{{ field.label }}: <br> {{ field }}</p>      
+            {% for error in field.errors %}
+            <small style="color: red">{{ error }}</small>
+            {% endfor %}
+          </div>
+          {% endfor %}     
+          <small style="color: red">{{ form.error }}</small>
+          <button type="submit" class="btn btn-primary py-2 px-4 ">Register</button>     
+          {% if messages %}
+            {% for msg in messages%}       
+              <h5>{{ msg }}</h5>
+            {% endfor%}
+          {% endif %}    
+        </form>
+      </div>
+      <br><br>
+    </div>
+    <div class="col-sm-6">
+      <br><br><br><br>
+      <p>
+        if you have an account, <br> 
+        please
+        <a href="{% url 'user_app:login' %}">Login</a>
+      </p>   
+    </div>
+  </div>
+</div>
+
+<!-- Footer Start -->
+{% include 'design/footer.html'%}
+<!-- Footer End -->
+
+{% endblock %}  
